@@ -8,6 +8,5 @@ draw = Draw.Draw(root=root)
 save_draw = SaveDraw.SaveDraw(root, draw)
 root.protocol("WM_DELETE_WINDOW", save_draw.save_as_matrix)
 
-
-
 root.mainloop()
+
