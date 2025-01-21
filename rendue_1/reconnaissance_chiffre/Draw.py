@@ -17,7 +17,7 @@ class Draw:
 
     # Dessine une ligne de la dernière position à la position actuelle de la souris.
     def draw(self, event):
-        self.canvas.create_line(self.last_x, self.last_y, event.x, event.y, width=4, fill='black', capstyle=tk.ROUND, smooth=tk.TRUE)
+        self.canvas.create_line(self.last_x, self.last_y, event.x, event.y, width=10, fill='black', capstyle=tk.ROUND, smooth=tk.TRUE)
         self.last_x, self.last_y = event.x, event.y
 
     # Arrête le dessin.

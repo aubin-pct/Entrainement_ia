@@ -14,9 +14,9 @@ class SaveDraw:
         # image traitable en png
         img.save("img/drawing_temp.png")
         # redimentionnement de l'image 
-        img = img.resize((80,80), Image.BICUBIC)
+        img = img.resize((28,28), Image.NEAREST)
         # noir et blanc
-        img_gray = img.convert("1")
-        img_gray.save("img/drawing_temp.png")
-        np_img = np.array(img_gray)
+        #img_gray = img.convert("1")
+        img.save("img/drawing_temp.png")
+        #np_img = np.array(img_gray)
         self.root.destroy()
