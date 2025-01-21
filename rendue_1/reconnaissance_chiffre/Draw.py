@@ -1,6 +1,4 @@
 import tkinter as tk
-from PIL import Image # Pour la sauvegarde de l'image
-import numpy as np   
 
 class Draw:
     global last_x, last_y
@@ -26,8 +24,6 @@ class Draw:
     def stop_drawing(self, event):
         self.last_x, self.last_y = None, None
 
-    # Arrête le dessin.
-    def drawing_to_matrix():
-        pass
+
    
 
