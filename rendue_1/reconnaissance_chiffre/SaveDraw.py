@@ -16,7 +16,6 @@ class SaveDraw:
         # redimentionnement de l'image 
         img = img.resize((28,28), Image.NEAREST)
         # noir et blanc
-        #img_gray = img.convert("1")
         img.save("img/drawing_temp.png")
-        #np_img = np.array(img_gray)
+        #np_img = np.array(img)
         self.root.destroy()
