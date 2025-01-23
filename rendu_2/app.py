@@ -43,4 +43,7 @@ plt.title('Régression Linéaire : Population')
 plt.xlabel('Année')
 plt.ylabel('Population')
 plt.legend()
+
+plt.savefig('rendu_2/img/regression_lineaire_population.png')
+
 plt.show()
