@@ -16,4 +16,8 @@ L'IA codée a pour but de reconnaître le chiffre écrit par la sourie de l'util
 	pip install -r requirements.txt
 
 Lancement :
-	python rendue_1/app.py
+	un fichier app.py est présent dans chaque rendu.
+
+```
+	python rendue_<numero_rendu>/app.py
+```
