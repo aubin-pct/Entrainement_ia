@@ -7,7 +7,8 @@ class LinearRegression:
 
     def fit(self, X, Y):
         X = np.c_[np.ones(X.shape[0]), X]
-        self.B = np.linalg.inv(X.T @ X) @ (X.T @ Y) 
+        ridge = 1e-6  # Petite constante pour la régularisation
+        self.B = np.linalg.inv(X.T @ X + ridge * np.eye(X.shape[1])) @ (X.T @ Y) 
         self.__set_coef_determination(X, Y)
 
     def predict(self, X):

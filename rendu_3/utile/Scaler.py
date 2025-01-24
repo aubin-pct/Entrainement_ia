@@ -12,3 +12,7 @@ class Scaler:
     def transform(self, df):
         for name, series in df.items():
             df[name] = series / self.dico[name]
+
+    def fit(self, df):
+        for name, series in df.items():
+            self.dico[name] = series.max()
