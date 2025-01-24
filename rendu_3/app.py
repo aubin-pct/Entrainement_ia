@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 import utile.LinearRegression as l
 import utile.Scaler as Scaler
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
 X = np.array([1936, 1946, 1954, 1962, 1968, 1975, 1982, 1990, 1999, 2005]).reshape(-1,1)
@@ -17,45 +15,45 @@ scaler.fit_transform(df)
 X_norm = df.to_numpy()
 
 # Mon modèle
-model = l.LinearRegression()
-model.fit(X_norm, Y)
-Y_pred_moi = model.predict(X_norm)
+model_polynomial = l.LinearRegression()
+model_polynomial.fit(X_norm, Y)
+Y_pred_polynomial = model_polynomial.predict(X_norm)
 
 # Modèle scikit-learn
-model_sklearn = LinearRegression()
-model_sklearn.fit(X_norm, Y)
-Y_pred_sklearn = model_sklearn.predict(X_norm)
+model_simple = l.LinearRegression()
+model_simple.fit(X, Y)
+Y_pred_simple = model_simple.predict(X)
 
 # Indicateurs de performance
-mse_moi = model.MSE(Y, Y_pred_moi)
-r2_moi = model.get_coef_determination()
+mse_polynomial = model_polynomial.MSE(Y, Y_pred_polynomial)
+r2_polynomial = model_polynomial.get_coef_determination()
 
-mse_sklearn = mean_squared_error(Y, Y_pred_sklearn)
-r2_sklearn = r2_score(Y, Y_pred_sklearn)
+mse_simple = model_simple.MSE(Y, Y_pred_simple)
+r2_simple = model_simple.get_coef_determination()
 
-print(str(mse_moi) + "    sklearn : " + str(mse_sklearn))
-print(str(r2_moi) + "    sklearn : " + str(r2_sklearn))
+print("polynomial :" + str(mse_polynomial) + "    simple : " + str(mse_simple))
+print("polynomial :" + str(r2_polynomial) + "    simple : " + str(r2_simple))
 
+annees_futures = np.array([1999, 2005, 2010, 2015, 2020]).reshape(-1,1)
+df_annees_futures = pd.DataFrame({ "annee" : [1999, 2005, 2010, 2015, 2020]})
+df_annees_futures["annee2"] = df_annees_futures["annee"] ** 2
 
-annees_futures = pd.DataFrame({ "annee" : [1999, 2005, 2010, 2015, 2020]})
-annees_futures["annee2"] = annees_futures["annee"] ** 2
-
-annees_futures_norm = annees_futures.copy()
+annees_futures_norm = df_annees_futures.copy()
 scaler.transform(annees_futures_norm)
 
-predictions_moi = model.predict(annees_futures_norm.to_numpy())
+predictions_polynomial = model_polynomial.predict(annees_futures_norm.to_numpy())
 
-predictions_sklearn = model_sklearn.predict(annees_futures_norm.to_numpy())
+predictions_simple = model_simple.predict(annees_futures)
 
 
 
 # Visualisation
 plt.figure(figsize=(12, 6))
 plt.scatter(X, Y, color='blue', label='Données réelles')
-plt.plot(X, Y_pred_moi, color='red', label='Régression manuelle')
-plt.plot(X, Y_pred_sklearn, color='green', linestyle='--', label='Régression scikit-learn')
-plt.scatter(annees_futures["annee"], predictions_moi, color='red', marker='x', label='Projections manuelles')
-plt.scatter(annees_futures["annee"], predictions_sklearn, color='green', marker='x', label='Projections scikit-learn')
+plt.plot(X, Y_pred_polynomial, color='red', label='Régression polynomial')
+plt.plot(X, Y_pred_simple, color='green', linestyle='--', label='Régression simple')
+plt.scatter(df_annees_futures["annee"], predictions_polynomial, color='red', marker='x', label='Projections polynomial')
+plt.scatter(df_annees_futures["annee"], predictions_simple, color='green', marker='x', label='Projections simple')
 plt.title('Régression Linéaire : Population')
 plt.xlabel('Année')
 plt.ylabel('Population')

@@ -2,7 +2,6 @@
 
 Dans ce troisième rendu, le but est d'améiorer le rendu 2 en faisant une régression polynomial.
 
-Les indicateurs de performance (MSE et R2) sont également calculés et affichés dans le terminal afin dêtre aussi comparés aux résultats de la bibliothèque scikit-learn.
 
 ## Lancement
 
