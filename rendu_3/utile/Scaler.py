@@ -1,18 +1,17 @@
 import pandas as pd
 
 class Scaler:
-    dico = {}
+    max = {}
 
     def fit_transform(self, df):
         for name, series in df.items():
-            max = series.max()
-            self.dico[name] = max
-            df[name] = series / max
+            self.max[name] = abs(series.max() if series.max() > abs(series.min()) else series.min())
+            df[name] = series / self.max[name]
 
     def transform(self, df):
         for name, series in df.items():
-            df[name] = series / self.dico[name]
+            df[name] = series / self.max[name]
 
     def fit(self, df):
         for name, series in df.items():
-            self.dico[name] = series.max()
+            self.max[name] = abs(series.max() if series.max() > abs(series.min()) else series.min())
