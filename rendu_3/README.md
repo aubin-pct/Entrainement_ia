@@ -1,6 +1,7 @@
 # **3ème Rendu**
 
-Dans ce troisième rendu, le but est d'améiorer le rendu 2 en faisant une régression polynomial.
+Dans ce troisième rendu, l'objectif est d'améliorer le rendu précédent en utilisant une régression polynomiale. Pour ce faire, nous avons créé une classe `Scaler` afin de normaliser les données et amélioré la classe `LinearRegression` pour gérer les régressions multiples.
+L'affichage final compare désormais ce nouveau modèle de régression polynomiale à l'ancien modèle de régression linéaire simple.
 
 
 ## Lancement
@@ -17,10 +18,7 @@ Dans ce troisième rendu, le but est d'améiorer le rendu 2 en faisant une régr
 
 ## Analyse
 
-    Les valeurs de MSE sont très élevées, ce qui est attendu étant donné que les valeurs de population sont de l'ordre de plusieurs dizaines de millions. Les deux modèles ont des valeurs de MSE très proches, ce qui indique que les performances des deux modèles sont très similaires en termes d'erreur de prédiction.
-
-    Le coefficient de détermination étant proche de 1 indique que le modèle explique bien la variance des données. Les deux modèles ont des valeurs de R² très proches de 0.966, ce qui
-est très bon. Cela signifie que les deux modèles expliquent environ 96.6% de la variance des données de population.
+   Bien que les différences soient minimes, le modèle de régression polynomiale montre une légère amélioration par rapport au modèle de régression linéaire simple en termes de précision des prédictions et d'explication de la variance des données. Cela suggère que l'ajout de termes polynomiaux a permis de capturer des relations non linéaires dans les données, améliorant ainsi la performance du modèle.
 
 ## Annexe
 

@@ -31,8 +31,8 @@ r2_polynomial = model_polynomial.get_coef_determination()
 mse_simple = model_simple.MSE(Y, Y_pred_simple)
 r2_simple = model_simple.get_coef_determination()
 
-print("polynomial :" + str(mse_polynomial) + "    simple : " + str(mse_simple))
-print("polynomial :" + str(r2_polynomial) + "    simple : " + str(r2_simple))
+print("MSE -> polynomial :" + str(mse_polynomial) + "    simple : " + str(mse_simple))
+print("r2 -> polynomial :" + str(r2_polynomial) + "    simple : " + str(r2_simple))
 
 annees_futures = np.array([1999, 2005, 2010, 2015, 2020]).reshape(-1,1)
 df_annees_futures = pd.DataFrame({ "annee" : [1999, 2005, 2010, 2015, 2020]})
