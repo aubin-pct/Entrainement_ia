@@ -1,14 +1,19 @@
 # **3ème Rendu**
 
-Dans ce troisième rendu, l'objectif est d'améliorer les résultats obtenus précédemment en intégrant une régression polynomiale. Pour cela :
 
-1. Une classe `Scaler` a été créée pour normaliser les données.
-2. La classe `LinearRegression` a été améliorée pour prendre en charge les régressions multiples.
-3. Une nouvelle classe `PolynomialRegression` a été ajoutée.
+Dans ce troisième rendu, l'objectif est d'améliorer les résultats obtenus précédemment en intégrant une régression polynomiale.
 
-Les données d'entraînement du modèle sont importées depuis un fichier CSV situé dans le dossier `csv_files`.
+Pour cela :
 
-L'affichage final compare les performances du nouveau modèle de régression polynomiale avec celles de l'ancien modèle de régression linéaire simple. De plus, le graphique précédent a été mis à jour pour inclure les deux modèles, permettant une visualisation claire de leurs différences sur les nouvelles données.
+* Une classe `Scaler` a été créée pour normaliser les données.
+* La classe `LinearRegression` a été améliorée pour gérer les régressions multiples.
+* Une nouvelle classe `PolynomialRegression` a été ajoutée.
+
+En plus de cela, plusieurs graphiques ont été ajoutés pour comparer les performances des modèles :
+
+1. Un premier graphique compare les résultats obtenus pour différents degrés de régression polynomiale.
+2. Des graphiques supplémentaires montrent l'évolution de l'erreur quadratique moyenne (MSE) et du coefficient de détermination (R²) en fonction du degré.
+3. Enfin, l'utilisateur est invité à choisir l'ordre qu'il préfère pour afficher le graphique correspondant.
 
 ## Lancement
 
@@ -24,18 +29,10 @@ L'affichage final compare les performances du nouveau modèle de régression pol
 
 ## Analyse
 
-Les résultats montrent une nette supériorité de la régression polynomiale par rapport à la régression linéaire simple :
-
-* **MSE (Erreur Quadratique Moyenne)** :
-  * Régression polynomiale : **8.06** (faible erreur).
-  * Régression simple : **142.83** (erreur significativement plus élevée).
-* **R² (Coefficient de Détermination)** :
-  * Régression polynomiale : **0.945** (très proche de 1, indiquant un excellent ajustement).
-  * Régression simple : **0.031** (proche de 0, suggérant un ajustement très médiocre).
-
+Les résultats montrent une nette supériorité de la régression polynomiale par rapport à la régression linéaire simple.
 La régression polynomiale est clairement plus adaptée pour modéliser les données, offrant un meilleur ajustement et des prédictions beaucoup plus précises que la régression linéaire simple.
 
 ## Annexe
 
     Vous trouverez les graphiques dans le dossier img.
-    Vous trouverez le fichier CSV dans le dossier csv_files.
+    Vous trouverez les fichiers CSV dans le dossier csv_files.
