@@ -50,7 +50,7 @@ for degree in range(1,len(x_train)):
     r2 = np.append(r2, r2_score(y_train, y_pred))
 
     # Génération des points de prédiction pour le graphique
-    X_grid = np.arange(np.min(x_train), np.max(x_train)+0.2, 0.2)
+    X_grid = np.arange(np.min(x_train), np.max(x_train)+1.2, 0.2)
     X_grid = X_grid.reshape((len(X_grid), 1))
     X_grid_poly = poly_reg.transform(X_grid)
     y_grid_pred = lin_reg.predict(X_grid_poly)
@@ -114,7 +114,7 @@ print("r2 -> polynomial : " + str(model_polynomial.get_coef_determination()) + "
 
 sorted_indices = np.argsort(x_train.flatten())  # Indices pour trier x_train
 x_train_sorted = x_train[sorted_indices]
-x_grid_train = np.arange(np.min(x_train_sorted), np.max(x_train_sorted)+0.2, 0.2)
+x_grid_train = np.arange(np.min(x_train_sorted), np.max(x_train_sorted)+1.2, 0.2)
 x_grid_train = x_grid_train.reshape((len(x_grid_train), 1))
 Y_pred_polynomial_sorted = model_polynomial.predict(x_grid_train)
 Y_pred_simple_sorted = Y_pred_simple[sorted_indices]
@@ -125,6 +125,7 @@ plt.figure(figsize=(12, 6))
 plt.scatter(x_train, y_train, color='blue', label='Données réelles')
 plt.plot(x_grid_train, Y_pred_polynomial_sorted, color='red', label=f'Régression polynomial ordre : {model_polynomial.degree}')
 plt.plot(x_train_sorted, Y_pred_simple_sorted, color='green', linestyle='--', label='Régression simple')
+plt.xticks(np.arange(np.min(x_train), np.max(x_train) + 2, 1))
 plt.title('Régression Linéaire : Salaires')
 plt.xlabel('Level')
 plt.ylabel('Salaire')
