@@ -13,6 +13,7 @@ corr_matrix = df.corr()
 # Affichage sous forme de heatmap=
 sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Matrice de corrélation")
+plt.savefig('rendu_4/img/matrice_correlation.jpg', format='jpg')
 plt.show()
 
 min_max_scaler = preprocessing.MinMaxScaler()
@@ -44,4 +45,5 @@ for column_sels, target in relations:
 
 
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
+plt.savefig('rendu_4/img/regression_graphe.jpg', format='jpg')
 plt.show()
