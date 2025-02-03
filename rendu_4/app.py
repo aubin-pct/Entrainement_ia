@@ -2,12 +2,15 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import scipy.stats as stats
 
 from sklearn import preprocessing
 
 df = pd.read_csv('rendu_4/csv_files/housing.csv', delimiter="\s+")
 
+df["MEDV"] = df["MEDV"] * 1000
 # Calcul de la matrice de corrélation
+
 corr_matrix = df.corr()
 
 # Affichage sous forme de heatmap=
@@ -16,10 +19,11 @@ plt.title("Matrice de corrélation")
 plt.savefig('rendu_4/img/matrice_correlation.jpg', format='jpg')
 plt.show()
 
+
 min_max_scaler = preprocessing.MinMaxScaler()
 # Liste des relations à tracer
 
-high_corr = corr_matrix[abs(corr_matrix) > 0.7].stack().reset_index()
+high_corr = corr_matrix[abs(corr_matrix) >= 0.7].stack().reset_index()
 high_corr = high_corr[high_corr['level_0'] != high_corr['level_1']] 
 high_corr = high_corr[high_corr.apply(lambda x: x['level_0'] < x['level_1'], axis=1)]
 
@@ -36,6 +40,7 @@ for _, serie in high_corr.iterrows():
         temp = serie["level_0"]
         tab = []
     tab.append(serie["level_1"])
+relations.append((tab, temp))
 
 nb_row = len(high_corr) // 4
 # Création de la figure avec des sous-graphiques
@@ -52,6 +57,7 @@ for column_sels, target in relations:
     
     # Tracé des régressions pour chaque variable
     for col in column_sels:
+
         sns.regplot(y=y, x=x[col], ax=axs[index])
         axs[index].set_title(f"{col} vs {target}")
         index += 1
@@ -60,3 +66,18 @@ for column_sels, target in relations:
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
 plt.savefig('rendu_4/img/regression_graphe.jpg', format='jpg')
 plt.show()
+
+
+
+
+for name, serie in df.items():
+    if (name != "MEDV"):
+        p, p_value = stats.spearmanr(serie.to_numpy(), df["MEDV"].to_numpy())
+        print("Spearman " + name + " x MEDV : " + "p : " + str(p) + "  p_value : " + str(p_value))
+
+
+df["Price_Category"] = pd.cut(
+    df["MEDV"], 
+    bins=[-float('inf'), 20000, 40000, float('inf')], 
+    labels=[0, 1, 2]
+)
