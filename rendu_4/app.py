@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats as stats
+import utile.LinearRegression as l
 
 from sklearn import preprocessing
 
@@ -68,16 +69,36 @@ plt.savefig('rendu_4/img/regression_graphe.jpg', format='jpg')
 plt.show()
 
 
-
-
+# Affichage stat Spearman
+target_col_name = df.columns[-1]
 for name, serie in df.items():
-    if (name != "MEDV"):
-        p, p_value = stats.spearmanr(serie.to_numpy(), df["MEDV"].to_numpy())
-        print("Spearman " + name + " x MEDV : " + "p : " + str(p) + "  p_value : " + str(p_value))
+    if (name != target_col_name):
+        p, p_value = stats.spearmanr(serie.to_numpy(), df[target_col_name].to_numpy())
+        print("Spearman " + target_col_name + " x " + name + " : " + "p : " + str(p) + "  p_value : " + str(p_value))
 
-
-df["Price_Category"] = pd.cut(
-    df["MEDV"], 
+# tranformation derniere variable en variable categorielle
+name_category = target_col_name + "_category"
+df[name_category] = pd.cut(
+    df[target_col_name], 
     bins=[-float('inf'), 20000, 40000, float('inf')], 
     labels=[0, 1, 2]
 )
+
+# Affichage regression lineaire pour nouvelle variable categorielle
+fig, axs = plt.subplots(ncols=4, nrows=int(np.ceil(len(df.columns) / 4)) , figsize=(20, 10))
+axs = axs.flatten()
+index = 0
+lin_reg = l.LinearRegression()
+for name, serie in df.items():
+    if (name != target_col_name and name != name_category):
+        lin_reg.fit(serie.to_numpy(), df[name_category].to_numpy())
+        y_pred = lin_reg.predict(serie.to_numpy())
+        axs[index].scatter(serie, df[name_category].to_numpy(), label="Données réelles", alpha=0.6)  # Points
+        axs[index].plot(serie, y_pred, color="red", label="Régression")  # Ligne
+        axs[index].set_title(f"{name} vs {name_category}")
+        axs[index].legend()
+        index += 1
+
+plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
+plt.show()
+
