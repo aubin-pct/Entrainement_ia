@@ -4,6 +4,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import utile.LinearRegression as l
+import utile.OrdinalClassification as o
+from sklearn.metrics import roc_curve, auc
+from sklearn.preprocessing import label_binarize
 
 from sklearn import preprocessing
 
@@ -78,9 +81,15 @@ for name, serie in df.items():
 
 # tranformation derniere variable en variable categorielle
 name_category = target_col_name + "_category"
-df[name_category] = pd.cut(
+#df[name_category] = pd.cut(
+#    df[target_col_name], 
+#    bins=[-float('inf'), 20000, 35000, float('inf')], 
+#    labels=[0, 1, 2]
+#)
+
+df[name_category] = pd.qcut(
     df[target_col_name], 
-    bins=[-float('inf'), 20000, 40000, float('inf')], 
+    q=3,
     labels=[0, 1, 2]
 )
 
@@ -101,4 +110,48 @@ for name, serie in df.items():
 
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
 plt.show()
+
+df = df.drop(columns=["MEDV"])
+
+# Regression logistique ordinal
+log_reg = o.OrdinalClassification(3)
+X = df.iloc[:, :-1].to_numpy()
+X = np.c_[np.ones(X.shape[0]), X]
+y = df.iloc[:, -1].to_numpy()
+
+log_reg.fit(X, y, alpha=0.1)
+y_pred = log_reg.predict(X)
+
+
+# Transformation des étiquettes en un format binaire pour chaque classe
+y_bin = label_binarize(y, classes=[0, 1, 2])  # Adapter en fonction du nombre de classes
+
+# Calcul des probabilités de chaque classe (log_reg.proba retourne des probabilités)
+# On utilise les prédictions pour chaque classe avec "one-vs-rest"
+fpr = {}
+tpr = {}
+roc_auc = {}
+
+for i in range(3):  # 3 classes
+    fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X, i))
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Tracer la courbe ROC pour chaque classe
+plt.figure(figsize=(8, 6))
+
+for i in range(3):
+    plt.plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
+
+# Tracer la diagonale (modèle aléatoire)
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
+
+# Ajouter des labels et une légende
+plt.xlabel('Taux de Faux Positifs (FPR)')
+plt.ylabel('Taux de Vrais Positifs (TPR)')
+plt.title('Courbe ROC')
+plt.legend(loc='lower right')
+
+plt.show()
+
+print(y)
 
