@@ -98,7 +98,8 @@ plt.savefig('rendu_4/img/regression_graphe.png', format='png')
 plt.show()
 
 
-# Affichage stat Spearman
+# Affichage test Spearman
+print("Tests statistiques spearman : ")
 target_col_name = df.columns[-1]
 for name, serie in df.items():
     if (name != target_col_name):
@@ -122,13 +123,17 @@ df = df.drop(columns=["MEDV"])
 
 # Affichage test CHI2   /   les variables sont arbitrairement selectionnées ici
 print("\nTests statistiques chi2 : ")
-contingency_table = pd.crosstab(df['RAD'], df[name_category])
-chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
-print(f"Test du chi2 {name_category} x RAD : chi2 = {chi2} ; p-value = {p}")
-contingency_table = pd.crosstab(df['CHAS'], df[name_category])
-chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
-print(f"Test du chi2 {name_category} x RAD : chi2 = {chi2} ; p-value = {p} ")
+for column in ["RAD", "CHAS"]:
+    contingency_table = pd.crosstab(df[column], df[name_category])
+    chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+    print(f"Test du chi2 {name_category} x {column} : chi2 = {chi2} ; p-value = {p}")
 
+# Affichage test ANOVA
+print("\nTests statistiques ANOVA : ")
+for column in ['CRIM', 'ZN', 'INDUS', 'NOX', 'RM', 'AGE', 'DIS', 'TAX', 'PTRATIO', 'B', 'LSTAT']:
+    groupes = [df[df[name_category] == i][column] for i in df[name_category].unique()]
+    f_stat, p_value = stats.f_oneway(*groupes)
+    print(f"Test d'ANOVA {name_category} x {column}, F-statistique : {f_stat}, p-value : {p_value}")
 
 
 # Affichage des regressions lineaires pour nouvelle variable categorielle
