@@ -47,7 +47,13 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 * **Test de Spearman** : Corrélations significatives entre les variables, par exemple :
   * **MEDV x LSTAT** : Corrélation négative forte (-0.85), indiquant que le prix des maisons diminue avec un statut socio-économique plus bas.
   * **MEDV x RM** : Corrélation positive forte (0.63), suggérant que plus de pièces par logement est associé à un prix plus élevé.
-* **Classification Ordinale avec PCA** : Le modèle a montré des performances modérées, avec une précision moyenne de 57% (Validation croisée). Les classes 0 et 2 ont montré de meilleures performances que la classe 1, qui nécessiterait des ajustements.
+* **Test de Chi2** : Mise en évidence de relations entre la variable cible et des variables qualitatives :
+  * **MEDV_category x RAD** : Relation forte avec le nombre de routes accessibles (p < 0.05).
+  * **MEDV_category x CHAS** : Relation plus faible avec la proximité de la rivière Charles (p ≈ 0.05).
+* **Test d'ANOVA** : Impact des variables continues sur `MEDV_category` :
+  * **RM** : Plus de pièces par logement est associé à un prix plus élevé (p ≪ 0.05).
+  * **LSTAT** : Un statut socio-économique plus bas correspond à des prix plus faibles (p ≪ 0.05).
+* **Classification Ordinale avec PCA** : Précision moyenne de 57% (validation croisée). Les classes 0 et 2 sont mieux prédites que la classe 1, qui nécessiterait des ajustements.
 
 ## Auteurs
 
