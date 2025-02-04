@@ -7,6 +7,8 @@ import utile.LinearRegression as l
 import utile.OrdinalClassification as o
 from sklearn.metrics import roc_curve, auc
 from sklearn.preprocessing import label_binarize
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 from sklearn import preprocessing
 
@@ -93,7 +95,7 @@ df[name_category] = pd.qcut(
     labels=[0, 1, 2]
 )
 
-# Affichage regression lineaire pour nouvelle variable categorielle
+# Affichage regressions lineaires pour nouvelle variable categorielle
 fig, axs = plt.subplots(ncols=4, nrows=int(np.ceil(len(df.columns) / 4)) , figsize=(20, 10))
 axs = axs.flatten()
 index = 0
@@ -113,14 +115,23 @@ plt.show()
 
 df = df.drop(columns=["MEDV"])
 
+
 # Regression logistique ordinal
 log_reg = o.OrdinalClassification(3)
 X = df.iloc[:, :-1].to_numpy()
 X = np.c_[np.ones(X.shape[0]), X]
 y = df.iloc[:, -1].to_numpy()
 
-log_reg.fit(X, y, alpha=0.1)
-y_pred = log_reg.predict(X)
+# Standardisation
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# PCA
+pca = PCA(n_components=0.95)
+X_pca = pca.fit_transform(X_scaled)
+
+log_reg.fit(X_pca, y, alpha=0.1)
+y_pred = log_reg.predict(X_pca)
 
 
 # Transformation des étiquettes en un format binaire pour chaque classe
@@ -133,7 +144,7 @@ tpr = {}
 roc_auc = {}
 
 for i in range(3):  # 3 classes
-    fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X, i))
+    fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X_pca, i))
     roc_auc[i] = auc(fpr[i], tpr[i])
 
 # Tracer la courbe ROC pour chaque classe
@@ -152,6 +163,4 @@ plt.title('Courbe ROC')
 plt.legend(loc='lower right')
 
 plt.show()
-
-print(y)
 
