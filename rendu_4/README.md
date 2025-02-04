@@ -17,7 +17,7 @@ Le projet est organisé comme suit :
 * `OrdinalClassification.py` : Classe implémentant la régression logistique ordinale.
 * `LogistiqueRegression.py` : Implémentation de la régression logistique standard.
 * `Scaler.py` : Classe implémentant la normalisation min et max.
-* `PolynomialRegression.py` : Classe implémentant la régression polynomiale.
+* `PolynomialRegression.py` : Classe implémentant la régression polynomiale, calcule le MSE & R² et normalise avec Scaler.py.
 
 ## Lancement
 
@@ -38,7 +38,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 
 * **Simplifier le modèle** tout en conservant l'information essentielle.
 * **Améliorer les performances** en éliminant les variables redondantes ou peu informatives, ce qui permet de réduire le bruit et prévenir le sur-apprentissage.
-* ****Rendre les variables moins corrélées** **en transformant les données de manière à ce que les nouvelles composantes principales soient indépendantes entre elles.Faciliter l'interprétation et la visualisation des données en projetant celles-ci dans un espace de dimension réduite.
+* **Rendre les variables moins corrélées** en transformant les données de manière à ce que les nouvelles composantes principales soient indépendantes entre elles.Faciliter l'interprétation et la visualisation des données en projetant celles-ci dans un espace de dimension réduite.
 
 ## Résultats
 
@@ -54,6 +54,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
   * **RM** : Plus de pièces par logement est associé à un prix plus élevé (p ≪ 0.05).
   * **LSTAT** : Un statut socio-économique plus bas correspond à des prix plus faibles (p ≪ 0.05).
 * **Classification Ordinale avec PCA** : Précision moyenne de 57% (validation croisée). Les classes 0 et 2 sont mieux prédites que la classe 1, qui nécessiterait des ajustements.
+  ![image](image/ROC_graphe.png)
 
 ## Auteurs
 
