@@ -1,6 +1,6 @@
-## 4ème rendu : Ordinal Classification avec PCA et Analyse de Corrélation
+# 📌 4ème rendu : Ordinal Classification avec PCA et Analyse de Corrélation
 
-## Description du Rendu
+## 📝 Description du Rendu
 
 Ce projet implémente une classification ordinale en combinant plusieurs techniques d'analyse de données, notamment :
 
@@ -10,7 +10,7 @@ Ce projet implémente une classification ordinale en combinant plusieurs techniq
 * L'application de l'Analyse en Composantes Principales (PCA)
 * L'évaluation des performances du modèle avec une courbe ROC
 
-## Structure du Rendu
+## 📂 Structure du Rendu
 
 Le projet est organisé comme suit :
 
@@ -19,7 +19,7 @@ Le projet est organisé comme suit :
 * `Scaler.py` : Classe implémentant la normalisation min et max.
 * `PolynomialRegression.py` : Classe implémentant la régression polynomiale, calcule le MSE & R² et normalise avec Scaler.py.
 
-## Lancement
+## 🚀 Lancement
 
 ```
 	python app.py
@@ -32,7 +32,7 @@ Le projet est organisé comme suit :
 
 ```
 
-## Utilisation de la PCA
+## 🧠 Utilisation de la PCA
 
 L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la dimensionnalité du jeu de données, afin de :
 
@@ -40,7 +40,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 * **Améliorer les performances** en éliminant les variables redondantes ou peu informatives, ce qui permet de réduire le bruit et prévenir le sur-apprentissage.
 * **Rendre les variables moins corrélées** en transformant les données de manière à ce que les nouvelles composantes principales soient indépendantes entre elles.Faciliter l'interprétation et la visualisation des données en projetant celles-ci dans un espace de dimension réduite.
 
-## Résultats
+## 📊 Résultats
 
 * **Matrice de corrélation** : Identification des variables fortement corrélées pour mieux orienter la régression.
 * **Régressions linéaires** : Analyse des relations entre variables corrélées.
@@ -53,9 +53,26 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 * **Test d'ANOVA** : Impact des variables continues sur `MEDV_category` :
   * **RM** : Plus de pièces par logement est associé à un prix plus élevé (p ≪ 0.05).
   * **LSTAT** : Un statut socio-économique plus bas correspond à des prix plus faibles (p ≪ 0.05).
-* **Classification Ordinale avec PCA** : Précision moyenne de 57% (validation croisée). Les classes 0 et 2 sont mieux prédites que la classe 1, qui nécessiterait des ajustements.
-  ![image](image/ROC_graphe.png)
+* **Classification Ordinale avec PCA** : Précision moyenne de 57% (validation croisée). Les classes 0 et 2 sont mieux prédites que la classe 1, qui nécessiterait des ajustements
 
-## Auteurs
+### **📸 Sorties**
+
+#### 1/ Matrice de corrélation
+
+![matrice de corrélation](img/matrice_correlation.png)
+
+#### 2/ Régression des variables fortement corrélées
+
+![graphes de regression](img/regression_graphe.png)
+
+#### 3/ Régressions linéaires entre les entrées et la sortie (transformée en variable catégorielle)
+
+![graphes régressions de la variable cible](img/regression_target_graphe.png)
+
+#### 4/ Courbe ROC de la classification ordinale
+
+![graphe ROC](https://file+.vscode-resource.vscode-cdn.net/home/ob1/Documents/Entrainement_ia/rendu_4/img/ROC_graphe.png)
+
+## ✨ Auteurs
 
 Ce projet a été réalisé dans le cadre de l'analyse et la modélisation de données avec une approche de classification ordinale et réduction de dimension.
