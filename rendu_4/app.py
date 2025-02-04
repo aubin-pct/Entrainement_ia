@@ -156,7 +156,7 @@ X_pca = pca.fit_transform(X_scaled)
 accuracy_scores = []
 all_y_true = []
 all_y_pred = []
-
+# Cross validation 
 for train_index, test_index in kf.split(X_pca, y):
     X_train, X_test = X_pca[train_index], X_pca[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -177,7 +177,7 @@ print(f'\nRegression logistique, Accuracy moyenne (Validation croisée) : {np.me
 # Affichage du rapport de classification
 print("Rapport de Classification :\n", classification_report(all_y_true, all_y_pred))
 
-
+log_reg.fit(X_pca, y, alpha=0.1)
 
 # Transformation des étiquettes en un format binaire pour chaque classe
 y_bin = label_binarize(y, classes=[0, 1, 2])  # Adapter en fonction du nombre de classes
@@ -194,7 +194,6 @@ for i in range(3):  # 3 classes
 
 # Tracer la courbe ROC pour chaque classe
 plt.figure(figsize=(8, 6))
-
 for i in range(3):
     plt.plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
 

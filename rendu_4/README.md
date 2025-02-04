@@ -16,6 +16,8 @@ Le projet est organisé comme suit :
 
 * `OrdinalClassification.py` : Classe implémentant la régression logistique ordinale.
 * `LogistiqueRegression.py` : Implémentation de la régression logistique standard.
+* `Scaler.py` : Classe implémentant la normalisation min et max.
+* `PolynomialRegression.py` : Classe implémentant la régression polynomiale.
 
 ## Lancement
 
@@ -30,13 +32,22 @@ Le projet est organisé comme suit :
 
 ```
 
+## Utilisation de la PCA
+
+L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la dimensionnalité du jeu de données, afin de :
+
+* **Simplifier le modèle** tout en conservant l'information essentielle.
+* **Améliorer les performances** en éliminant les variables redondantes ou peu informatives, ce qui permet de réduire le bruit et prévenir le sur-apprentissage.
+* ****Rendre les variables moins corrélées** **en transformant les données de manière à ce que les nouvelles composantes principales soient indépendantes entre elles.Faciliter l'interprétation et la visualisation des données en projetant celles-ci dans un espace de dimension réduite.
+
 ## Résultats
 
-* **Matrice de corrélation** : Identifie les variables les plus fortement corrélées (>0.7 ou <-0.7).
-* **Régressions linéaires** : Permet d'examiner les relations entre les variables corrélées.
-* **Test de Spearman** : Affiché dans le terminal pour analyser la corrélation entre la variable cible et les autres variables.
-* **Classification Ordinale avec PCA** : Réduit la dimensionnalité des données avant d'entraîner le modèle.
-* **Courbe ROC** : Évalue la performance du modèle de classification.
+* **Matrice de corrélation** : Identification des variables fortement corrélées pour mieux orienter la régression.
+* **Régressions linéaires** : Analyse des relations entre variables corrélées.
+* **Test de Spearman** : Corrélations significatives entre les variables, par exemple :
+  * **MEDV x LSTAT** : Corrélation négative forte (-0.85), indiquant que le prix des maisons diminue avec un statut socio-économique plus bas.
+  * **MEDV x RM** : Corrélation positive forte (0.63), suggérant que plus de pièces par logement est associé à un prix plus élevé.
+* **Classification Ordinale avec PCA** : Le modèle a montré des performances modérées, avec une précision moyenne de 57% (Validation croisée). Les classes 0 et 2 ont montré de meilleures performances que la classe 1, qui nécessiterait des ajustements.
 
 ## Auteurs
 
