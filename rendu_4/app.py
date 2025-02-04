@@ -6,7 +6,7 @@ import scipy.stats as stats
 import utile.LinearRegression as l
 import utile.PolynomialRegression as p
 import utile.OrdinalClassification as o
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, auc, accuracy_score, classification_report
 from sklearn.preprocessing import label_binarize, StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.model_selection import KFold
@@ -141,8 +141,6 @@ plt.show()
 df = df.drop(columns=["MEDV"])
 
 
-# Regression logistique ordinal
-log_reg = o.OrdinalClassification(3)
 X = df.iloc[:, :-1].to_numpy()
 X = np.c_[np.ones(X.shape[0]), X]
 y = df.iloc[:, -1].to_numpy()
@@ -155,8 +153,30 @@ X_scaled = scaler.fit_transform(X)
 pca = PCA(n_components=0.95)
 X_pca = pca.fit_transform(X_scaled)
 
-log_reg.fit(X_pca, y, alpha=0.1)
-y_pred = log_reg.predict(X_pca)
+accuracy_scores = []
+all_y_true = []
+all_y_pred = []
+
+for train_index, test_index in kf.split(X_pca, y):
+    X_train, X_test = X_pca[train_index], X_pca[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    log_reg = o.OrdinalClassification(3)
+    log_reg.fit(X_train, y_train, alpha=0.1)
+    
+    y_pred = log_reg.predict(X_test)
+
+    # Stocker les résultats pour la moyenne
+    accuracy_scores.append(accuracy_score(y_test, y_pred))
+    all_y_true.extend(y_test)
+    all_y_pred.extend(y_pred)
+
+
+# Affichage de la moyenne des scores d'accuracy sur les folds
+print(f'\nRegression logistique, Accuracy moyenne (Validation croisée) : {np.mean(accuracy_scores):.4f}')
+# Affichage du rapport de classification
+print("Rapport de Classification :\n", classification_report(all_y_true, all_y_pred))
+
 
 
 # Transformation des étiquettes en un format binaire pour chaque classe
