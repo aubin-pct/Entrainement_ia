@@ -118,6 +118,18 @@ df[name_category] = pd.qcut(
     q=3,
     labels=[0, 1, 2]
 )
+df = df.drop(columns=["MEDV"])
+
+# Affichage test CHI2   /   les variables sont arbitrairement selectionnées ici
+print("\nTests statistiques chi2 : ")
+contingency_table = pd.crosstab(df['RAD'], df[name_category])
+chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+print(f"Test du chi2 {name_category} x RAD : chi2 = {chi2} ; p-value = {p}")
+contingency_table = pd.crosstab(df['CHAS'], df[name_category])
+chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+print(f"Test du chi2 {name_category} x RAD : chi2 = {chi2} ; p-value = {p} ")
+
+
 
 # Affichage des regressions lineaires pour nouvelle variable categorielle
 fig, axs = plt.subplots(ncols=4, nrows=int(np.ceil(len(df.columns) / 4)) , figsize=(20, 10))
@@ -138,7 +150,6 @@ plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
 plt.savefig('rendu_4/img/regression_target_graphe.png', format='png')
 plt.show()
 
-df = df.drop(columns=["MEDV"])
 
 
 X = df.iloc[:, :-1].to_numpy()
@@ -180,10 +191,9 @@ print("Rapport de Classification :\n", classification_report(all_y_true, all_y_p
 log_reg.fit(X_pca, y, alpha=0.1)
 
 # Transformation des étiquettes en un format binaire pour chaque classe
-y_bin = label_binarize(y, classes=[0, 1, 2])  # Adapter en fonction du nombre de classes
+y_bin = label_binarize(y, classes=[0, 1, 2])
 
-# Calcul des probabilités de chaque classe (log_reg.proba retourne des probabilités)
-# On utilise les prédictions pour chaque classe avec "one-vs-rest"
+
 fpr = {}
 tpr = {}
 roc_auc = {}
@@ -197,10 +207,8 @@ plt.figure(figsize=(8, 6))
 for i in range(3):
     plt.plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
 
-# Tracer la diagonale (modèle aléatoire)
+# Affiche graphe ROC
 plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
-
-# Ajouter des labels et une légende
 plt.xlabel('Taux de Faux Positifs (FPR)')
 plt.ylabel('Taux de Vrais Positifs (TPR)')
 plt.title('Courbe ROC')
