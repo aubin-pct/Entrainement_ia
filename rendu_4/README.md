@@ -1,18 +1,43 @@
-## Analyse matrice de corrélation
+## 4ème rendu : Ordinal Classification avec PCA et Analyse de Corrélation
 
-### **Corrélations positives fortes (> 0.7)**
+## Description du Rendu
 
-| Variables             | Corrélation   | Interprétation                                                                                        |
-| --------------------- | -------------- | ------------------------------------------------------------------------------------------------------ |
-| **INDUS & NOX** | **0.76** | Plus il y a de terrains industriels dans une ville, plus la pollution aux oxydes d'azote est élevée. |
-| **AGE & NOX**   | **0.73** | Les zones avec des logements anciens sont plus polluées.                                              |
-| **TAX & RAD**   | **0.91** | Les quartiers avec un accès facile aux autoroutes ont des taxes foncières plus élevées.            |
+Ce projet implémente une classification ordinale en combinant plusieurs techniques d'analyse de données, notamment :
 
-### **Corrélations négatives fortes (< -0.7)**
+* L'analyse de corrélation entre les variables
+* La régression linéaire pour les variables fortement corrélées
+* La transformation d'une variable cible en une variable catégorielle
+* L'application de l'Analyse en Composantes Principales (PCA)
+* L'évaluation des performances du modèle avec une courbe ROC
 
-| Variables              | Corrélation    | Interprétation                                                                                         |
-| ---------------------- | --------------- | ------------------------------------------------------------------------------------------------------- |
-| **DIS & INDUS**  | **-0.71** | Plus une zone est industrielle, plus elle est éloignée des centres d'emploi.                          |
-| **DIS & NOX**    | **-0.77** | Les zones éloignées des centres d'emploi ont une pollution plus faible.                               |
-| **DIS & AGE**    | **-0.75** | Les logements plus anciens sont généralement situés dans des zones plus centrales.                   |
-| **LSTAT & MEDV** | **-0.74** | Plus le pourcentage de population à faible revenu est élevé, plus la valeur des logements est basse. |
+## Structure du Rendu
+
+Le projet est organisé comme suit :
+
+* `OrdinalClassification.py` : Classe implémentant la régression logistique ordinale.
+* `LogistiqueRegression.py` : Implémentation de la régression logistique standard.
+
+## Lancement
+
+```
+	python app.py
+```
+
+    ou
+
+```
+	python3 app.py
+
+```
+
+## Résultats
+
+* **Matrice de corrélation** : Identifie les variables les plus fortement corrélées (>0.7 ou <-0.7).
+* **Régressions linéaires** : Permet d'examiner les relations entre les variables corrélées.
+* **Test de Spearman** : Affiché dans le terminal pour analyser la corrélation entre la variable cible et les autres variables.
+* **Classification Ordinale avec PCA** : Réduit la dimensionnalité des données avant d'entraîner le modèle.
+* **Courbe ROC** : Évalue la performance du modèle de classification.
+
+## Auteurs
+
+Ce projet a été réalisé dans le cadre de l'analyse et la modélisation de données avec une approche de classification ordinale et réduction de dimension.
