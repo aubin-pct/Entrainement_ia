@@ -13,12 +13,10 @@ from sklearn.model_selection import KFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
-
-
 from sklearn import preprocessing
 
-df = pd.read_csv('rendu_4/csv_files/housing.csv', delimiter="\s+")
 
+df = pd.read_csv('rendu_4/csv_files/housing.csv', delimiter="\s+")
 df["MEDV"] = df["MEDV"] * 1000
 
 # Calcul de la matrice de corrélation
@@ -38,7 +36,7 @@ high_corr = corr_matrix[abs(corr_matrix) >= 0.7].stack().reset_index()
 high_corr = high_corr[high_corr['level_0'] != high_corr['level_1']] 
 high_corr = high_corr[high_corr.apply(lambda x: x['level_0'] < x['level_1'], axis=1)]
 
-
+# Formatage  
 relations = []
 temp = None
 tab = []
@@ -52,18 +50,19 @@ for _, serie in high_corr.iterrows():
     tab.append(serie["level_1"])
 relations.append((tab, temp))
 
-nb_row = len(high_corr) // 4
+
 # Création de la figure avec des sous-graphiques
+nb_row = len(high_corr) // 4
 fig, axs = plt.subplots(ncols=4, nrows=nb_row, figsize=(20, 10))
 axs = axs.flatten()
 
+# Affichage de toutes les régressions des variables corrélées
 kf = KFold(n_splits=10, shuffle=True, random_state=42)
 index = 0
 for column_sels, target in relations:
     x = df.loc[:, column_sels]
     y = df[target]
-    
-    
+
     # Tracé des régressions pour chaque variable
     for col in column_sels:
         mse_mean = {}
@@ -81,7 +80,7 @@ for column_sels, target in relations:
                 y_pred = poly_reg.predict(X_Test) 
                 mse_temp = np.append(mse_temp, poly_reg.MSE(Y_Test, y_pred))
             mse_mean[degree] = np.mean(mse_temp)
-        # Recuperation de meilleur degree
+        # Recuperation du meilleur degree
         best_degree = min(mse_mean, key=mse_mean.get)
         poly_reg.fit(x_train, y_train, degree=best_degree)
 
@@ -112,12 +111,6 @@ for name, serie in df.items():
 
 # tranformation derniere variable en variable categorielle
 name_category = target_col_name + "_category"
-#df[name_category] = pd.cut(
-#    df[target_col_name], 
-#    bins=[-float('inf'), 20000, 35000, float('inf')], 
-#    labels=[0, 1, 2]
-#)
-
 df[name_category] = pd.qcut(
     df[target_col_name], 
     q=3,
@@ -125,7 +118,14 @@ df[name_category] = pd.qcut(
 )
 df = df.drop(columns=["MEDV"])
 
-# Affichage test CHI2   /   les variables sont arbitrairement selectionnées ici
+#df[name_category] = pd.cut(
+#    df[target_col_name], 
+#    bins=[-float('inf'), 20000, 35000, float('inf')], 
+#    labels=[0, 1, 2]
+#)
+
+
+# Affichage test CHI2   /   les variables sont arbitrairement selectionnées
 print("\nTests statistiques chi2 : ")
 for column in ["RAD", "CHAS"]:
     contingency_table = pd.crosstab(df[column], df[name_category])
@@ -140,7 +140,7 @@ for column in ['CRIM', 'ZN', 'INDUS', 'NOX', 'RM', 'AGE', 'DIS', 'TAX', 'PTRATIO
     print(f"Test d'ANOVA {name_category} x {column}, F-statistique : {f_stat}, p-value : {p_value}")
 
 
-# Affichage des regressions lineaires pour nouvelle variable categorielle
+# Affichage des regressions linéaires pour la nouvelle variable categorielle
 fig, axs = plt.subplots(ncols=4, nrows=int(np.ceil(len(df.columns) / 4)) , figsize=(20, 10))
 axs = axs.flatten()
 index = 0
@@ -159,7 +159,7 @@ plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
 plt.savefig('rendu_4/img/regression_target_graphe.png', format='png')
 plt.show()
 
-
+## PCA ET courbes ROC
 
 X = df.iloc[:, :-1].to_numpy()
 X = np.c_[np.ones(X.shape[0]), X]
@@ -176,7 +176,7 @@ X_pca = pca.fit_transform(X_scaled)
 accuracy_scores = []
 all_y_true = []
 all_y_pred = []
-# Cross validation 
+# Cross validation de la classification ordinal
 for train_index, test_index in kf.split(X_pca, y):
     X_train, X_test = X_pca[train_index], X_pca[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -245,9 +245,8 @@ models = {
     "SVM": SVC(probability=True, kernel='rbf')
 }
 
-# Entraînement et évaluation
+# Entraînement, évaluation et affichage
 results = {}
-
 for name, model in models.items():
     model.fit(X_pca, y)
     y_pred = model.predict(X_pca)
@@ -269,7 +268,7 @@ for name, model in models.items():
     index += 1
     results[name] = accuracy
 
-
+# Affichage courbes ROC
 plt.title("Courbes ROC des modèles")
 plt.savefig('rendu_4/img/ROC_graphe.png', format='png')
 plt.show()
