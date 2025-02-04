@@ -10,6 +10,10 @@ from sklearn.metrics import roc_curve, auc, accuracy_score, classification_repor
 from sklearn.preprocessing import label_binarize, StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.model_selection import KFold
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from xgboost import XGBClassifier
+
 
 from sklearn import preprocessing
 
@@ -195,10 +199,27 @@ print("Rapport de Classification :\n", classification_report(all_y_true, all_y_p
 
 log_reg.fit(X_pca, y, alpha=0.1)
 
+
+# Visualisation des deux premières composantes principales
+plt.figure(figsize=(8, 6))
+plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis', alpha=0.7)
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.title("Projection PCA")
+plt.colorbar(label='MEDV_category')
+plt.show()
+
+
+
+## Calcules et affichage des courbes ROC des différents modèles 
+fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(20, 10))
+axs = axs.flatten()
+index = 0
+
 # Transformation des étiquettes en un format binaire pour chaque classe
 y_bin = label_binarize(y, classes=[0, 1, 2])
 
-
+# Modele de classification ordinal
 fpr = {}
 tpr = {}
 roc_auc = {}
@@ -206,18 +227,49 @@ roc_auc = {}
 for i in range(3):  # 3 classes
     fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X_pca, i))
     roc_auc[i] = auc(fpr[i], tpr[i])
-
-# Tracer la courbe ROC pour chaque classe
-plt.figure(figsize=(8, 6))
 for i in range(3):
-    plt.plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
-
-# Affiche graphe ROC
-plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
-plt.xlabel('Taux de Faux Positifs (FPR)')
-plt.ylabel('Taux de Vrais Positifs (TPR)')
-plt.title('Courbe ROC')
+    axs[index].plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
+axs[index].plot([0, 1], [0, 1], color='gray', linestyle='--')
+axs[index].set_title(f"Classification Ordinale")
+axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
+axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
+plt.title('Courbe ROC Régression Logistique Ordinal')
 plt.legend(loc='lower right')
+
+index += 1
+
+# Selection des différents modèles
+models = {
+    "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
+    "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='mlogloss'),
+    "SVM": SVC(probability=True, kernel='rbf')
+}
+
+# Entraînement et évaluation
+results = {}
+
+for name, model in models.items():
+    model.fit(X_pca, y)
+    y_pred = model.predict(X_pca)
+    y_proba = model.predict_proba(X_pca)
+    accuracy = accuracy_score(y, y_pred)
+    print(f"\n{name} - Accuracy: {accuracy:.4f}")
+    print(classification_report(y, y_pred))
+
+    # Courbe ROC
+    for i in range(3):
+        fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], y_proba[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+    for i in range(3):
+        axs[index].plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
+    axs[index].plot([0, 1], [0, 1], color='gray', linestyle='--')
+    axs[index].set_title(f"{name}")
+    axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
+    axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
+    index += 1
+    results[name] = accuracy
+
+
+plt.title("Courbes ROC des modèles")
 plt.savefig('rendu_4/img/ROC_graphe.png', format='png')
 plt.show()
-
