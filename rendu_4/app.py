@@ -4,36 +4,36 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats as stats
 import utile.LinearRegression as l
+import utile.PolynomialRegression as p
 import utile.OrdinalClassification as o
 from sklearn.metrics import roc_curve, auc
-from sklearn.preprocessing import label_binarize
+from sklearn.preprocessing import label_binarize, StandardScaler
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import KFold
 
 from sklearn import preprocessing
 
 df = pd.read_csv('rendu_4/csv_files/housing.csv', delimiter="\s+")
 
 df["MEDV"] = df["MEDV"] * 1000
-# Calcul de la matrice de corrélation
 
+# Calcul de la matrice de corrélation
 corr_matrix = df.corr()
 
-# Affichage sous forme de heatmap=
+# Affichage sous forme de heatmap
 sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Matrice de corrélation")
-plt.savefig('rendu_4/img/matrice_correlation.jpg', format='jpg')
+plt.savefig('rendu_4/img/matrice_correlation.png', format='png')
 plt.show()
 
 
 min_max_scaler = preprocessing.MinMaxScaler()
-# Liste des relations à tracer
 
+# Liste des relations à tracer
 high_corr = corr_matrix[abs(corr_matrix) >= 0.7].stack().reset_index()
 high_corr = high_corr[high_corr['level_0'] != high_corr['level_1']] 
 high_corr = high_corr[high_corr.apply(lambda x: x['level_0'] < x['level_1'], axis=1)]
 
-print(high_corr)
 
 relations = []
 temp = None
@@ -53,24 +53,48 @@ nb_row = len(high_corr) // 4
 fig, axs = plt.subplots(ncols=4, nrows=nb_row, figsize=(20, 10))
 axs = axs.flatten()
 
+kf = KFold(n_splits=10, shuffle=True, random_state=42)
 index = 0
 for column_sels, target in relations:
     x = df.loc[:, column_sels]
     y = df[target]
     
-    # Normalisation
-    x = pd.DataFrame(data=min_max_scaler.fit_transform(x), columns=column_sels)
     
     # Tracé des régressions pour chaque variable
     for col in column_sels:
+        mse_mean = {}
+        x_train = x[col].to_numpy()
+        y_train = y.to_numpy()
+        poly_reg = p.PolynomialRegression()
 
-        sns.regplot(y=y, x=x[col], ax=axs[index])
+        # Selection du degree optimal avec validation croisée
+        for degree in range(2, 6):
+            mse_temp = np.array([])
+            for train_index, test_index in kf.split(x_train):
+                X_Train, X_Test = x_train[train_index], x_train[test_index]
+                Y_Train, Y_Test = y_train[train_index], y_train[test_index]
+                poly_reg.fit(X_Train, Y_Train, degree=degree)
+                y_pred = poly_reg.predict(X_Test) 
+                mse_temp = np.append(mse_temp, poly_reg.MSE(Y_Test, y_pred))
+            mse_mean[degree] = np.mean(mse_temp)
+        # Recuperation de meilleur degree
+        best_degree = min(mse_mean, key=mse_mean.get)
+        poly_reg.fit(x_train, y_train, degree=best_degree)
+
+        # Génération des points de prédiction pour le graphique
+        X_grid = np.arange(np.min(x_train), np.max(x_train)+0.1, 0.1)
+        X_grid = X_grid.reshape((len(X_grid), 1))
+        y_grid_pred = poly_reg.predict(X_grid)
+
+        # Ajout de la regression polynomial au graphique
+        axs[index].scatter(x_train, y_train, label="Données réelles", alpha=0.6) 
+        axs[index].plot(X_grid, y_grid_pred, color="red", label="Régression")
         axs[index].set_title(f"{col} vs {target}")
         index += 1
 
-
+# Affichage des regressions polynomiales  
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
-plt.savefig('rendu_4/img/regression_graphe.jpg', format='jpg')
+plt.savefig('rendu_4/img/regression_graphe.png', format='png')
 plt.show()
 
 
@@ -95,7 +119,7 @@ df[name_category] = pd.qcut(
     labels=[0, 1, 2]
 )
 
-# Affichage regressions lineaires pour nouvelle variable categorielle
+# Affichage des regressions lineaires pour nouvelle variable categorielle
 fig, axs = plt.subplots(ncols=4, nrows=int(np.ceil(len(df.columns) / 4)) , figsize=(20, 10))
 axs = axs.flatten()
 index = 0
@@ -111,6 +135,7 @@ for name, serie in df.items():
         index += 1
 
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=5.0)
+plt.savefig('rendu_4/img/regression_target_graphe.png', format='png')
 plt.show()
 
 df = df.drop(columns=["MEDV"])
@@ -161,6 +186,6 @@ plt.xlabel('Taux de Faux Positifs (FPR)')
 plt.ylabel('Taux de Vrais Positifs (TPR)')
 plt.title('Courbe ROC')
 plt.legend(loc='lower right')
-
+plt.savefig('rendu_4/img/ROC_graphe.png', format='png')
 plt.show()
 
