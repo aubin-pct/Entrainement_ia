@@ -246,7 +246,6 @@ models = {
 }
 
 # Entraînement, évaluation et affichage
-results = {}
 for name, model in models.items():
     model.fit(X_pca, y)
     y_pred = model.predict(X_pca)
@@ -266,7 +265,6 @@ for name, model in models.items():
     axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
     axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
     index += 1
-    results[name] = accuracy
 
 # Affichage courbes ROC
 plt.title("Courbes ROC des modèles")
