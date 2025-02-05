@@ -92,7 +92,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 | **Macro avg**    | 0.60       | 0.57   | 0.55     | 506           |
 | **Weighted avg** | 0.60       | 0.57   | 0.55     | 506           |
 
----
+
 
 ##### **Random Forest** - Cross Validation - Accuracy : **0.7846**
 
@@ -105,7 +105,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 | **Macro avg**    | 0.80       | 0.78   | 0.79     | 506           |
 | **Weighted avg** | 0.79       | 0.78   | 0.79     | 506           |
 
----
+
 
 ##### **XGBoost** - Cross Validation - Accuracy : **0.7747**
 
@@ -117,6 +117,8 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 | **Accuracy**     |            |        | 0.77     | **506** |
 | **Macro avg**    | 0.78       | 0.78   | 0.78     | 506           |
 | **Weighted avg** | 0.78       | 0.77   | 0.78     | 506           |
+
+
 
 ##### **SVM** - Cross Validation - Accuracy : **0.5119**
 
