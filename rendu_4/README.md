@@ -8,7 +8,7 @@ Ce projet implémente une classification ordinale en combinant plusieurs techniq
 * La régression linéaire pour les variables fortement corrélées
 * La transformation d'une variable cible en une variable catégorielle
 * L'application de l'Analyse en Composantes Principales (PCA)
-* L'évaluation des performances du modèle avec une courbe ROC
+* L'évaluation des performances du modèle et comparaison avec d'autres modéles avec des courbes ROC
 
 ## 📂 Structure du Rendu
 
@@ -53,7 +53,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 * **Test d'ANOVA** : Impact des variables continues sur `MEDV_category` :
   * **RM** : Plus de pièces par logement est associé à un prix plus élevé (p ≪ 0.05).
   * **LSTAT** : Un statut socio-économique plus bas correspond à des prix plus faibles (p ≪ 0.05).
-* **Classification Ordinale avec PCA** : Précision moyenne de 57% (validation croisée). Les classes 0 et 2 sont mieux prédites que la classe 1, qui nécessiterait des ajustements
+* **Analyse comparative des modèles** : La régression logistique ordinale avec PCA atteint une précision moyenne de  57 % , avec une meilleure prédiction des classes  0 et 2 , tandis que la classe 1 reste plus difficile à classifier. En revanche, Random Forest et XGBoost affichent une précision  parfaitement optimisée (100%) , ce qui peut indiquer un sur-apprentissage. SVM offre un bon compromis avec une précision de  83 % , montrant une capacité de généralisation supérieure à la régression logistique tout en évitant l'overfitting observé avec les modèles d'ensemble.
 
 ### **📸 Sorties**
 
