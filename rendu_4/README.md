@@ -57,21 +57,77 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 
 ### **📸 Sorties**
 
-#### 1/ Matrice de corrélation
+#### 📈 Graphiques
+
+##### 1/ Matrice de corrélation
 
 ![matrice de corrélation](img/matrice_correlation.png)
 
-#### 2/ Régression des variables fortement corrélées
+##### 2/ Régression des variables fortement corrélées
 
 ![graphes de regression](img/regression_graphe.png)
 
-#### 3/ Régressions linéaires entre les entrées et la sortie (transformée en variable catégorielle)
+##### 3/ Régressions linéaires entre les entrées et la sortie (transformée en variable catégorielle)
 
 ![graphes régressions de la variable cible](img/regression_target_graphe.png)
 
-#### 4/ Courbes ROC
+##### 4/ Régression Logistique x PCA
+
+![courbe ROC Logistique regression](img/courbe_ROC_Logistique_PCA.png)
+
+##### 5/ Courbes ROC Comparaison
 
 ![graphe ROC](https://file+.vscode-resource.vscode-cdn.net/home/ob1/Documents/Entrainement_ia/rendu_4/img/ROC_graphe.png)
+
+#### 💻 Terminal
+
+Regression logistique - Cross Validation - Accuracy : 0.5688
+Rapport de Classification :
+               precision    recall  f1-score   support
+
+    0       0.51      0.85      0.64       169
+           1       0.63      0.34      0.44       171
+           2       0.66      0.52      0.58       166
+
+    accuracy                           0.57       506
+   macro avg       0.60      0.57      0.55       506
+weighted avg       0.60      0.57      0.55       506
+
+Random Forest - Cross Validation - Accuracy : 0.7846
+Rapport de Classification :
+               precision    recall  f1-score   support
+
+    0       0.88      0.80      0.84       169
+           1       0.67      0.77      0.72       171
+           2       0.83      0.78      0.80       166
+
+    accuracy                           0.78       506
+   macro avg       0.80      0.78      0.79       506
+weighted avg       0.79      0.78      0.79       506
+
+XGBoost - Cross Validation - Accuracy : 0.7747
+Rapport de Classification :
+               precision    recall  f1-score   support
+
+    0       0.83      0.81      0.82       169
+           1       0.69      0.71      0.70       171
+           2       0.82      0.81      0.81       166
+
+    accuracy                           0.77       506
+   macro avg       0.78      0.78      0.78       506
+weighted avg       0.78      0.77      0.78       506
+
+SVM - Cross Validation - Accuracy : 0.5119
+Rapport de Classification :
+               precision    recall  f1-score   support
+
+    0       0.68      0.63      0.65       169
+           1       0.33      0.19      0.24       171
+           2       0.48      0.73      0.58       166
+
+    accuracy                           0.51       506
+   macro avg       0.50      0.51      0.49       506
+weighted avg       0.50      0.51      0.49       506
 
 ## ✨ Auteurs
 

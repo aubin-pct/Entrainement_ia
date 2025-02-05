@@ -85,14 +85,17 @@ for column_sels, target in relations:
         poly_reg.fit(x_train, y_train, degree=best_degree)
 
         # Génération des points de prédiction pour le graphique
-        X_grid = np.arange(np.min(x_train), np.max(x_train)+0.1, 0.1)
+        X_grid = np.arange(np.min(x_train), np.max(x_train)+np.min(x_train)/50, np.min(x_train)/50)
         X_grid = X_grid.reshape((len(X_grid), 1))
         y_grid_pred = poly_reg.predict(X_grid)
 
+        r2 = poly_reg.get_coef_determination()
+        mse = poly_reg.MSE(Y_Test, y_pred)
         # Ajout de la regression polynomial au graphique
         axs[index].scatter(x_train, y_train, label="Données réelles", alpha=0.6) 
-        axs[index].plot(X_grid, y_grid_pred, color="red", label="Régression")
+        axs[index].plot(X_grid, y_grid_pred, color="red", label=f"Régression (R² = {r2:.2f}, mse = {mse:.2f})")
         axs[index].set_title(f"{col} vs {target}")
+        axs[index].legend()
         index += 1
 
 # Affichage des regressions polynomiales  
@@ -149,8 +152,8 @@ for name, serie in df.items():
     if (name != target_col_name and name != name_category):
         lin_reg.fit(serie.to_numpy(), df[name_category].to_numpy())
         y_pred = lin_reg.predict(serie.to_numpy())
-        axs[index].scatter(serie, df[name_category].to_numpy(), label="Données réelles", alpha=0.6)  # Points
-        axs[index].plot(serie, y_pred, color="red", label="Régression")  # Ligne
+        axs[index].scatter(serie, df[name_category].to_numpy(), label="Données réelles", alpha=0.6)
+        axs[index].plot(serie, y_pred, color="red", label="Régression")
         axs[index].set_title(f"{name} vs {name_category}")
         axs[index].legend()
         index += 1
@@ -193,7 +196,7 @@ for train_index, test_index in kf.split(X_pca, y):
 
 
 # Affichage de la moyenne des scores d'accuracy sur les folds
-print(f'\nRegression logistique, Accuracy moyenne (Validation croisée) : {np.mean(accuracy_scores):.4f}')
+print(f'\nRegression logistique - Cross Validation - Accuracy : {np.mean(accuracy_scores):.4f}')
 # Affichage du rapport de classification
 print("Rapport de Classification :\n", classification_report(all_y_true, all_y_pred))
 
@@ -209,17 +212,10 @@ plt.title("Projection PCA")
 plt.colorbar(label='MEDV_category')
 plt.show()
 
-
-
-## Calcules et affichage des courbes ROC des différents modèles 
-fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(20, 10))
-axs = axs.flatten()
-index = 0
-
 # Transformation des étiquettes en un format binaire pour chaque classe
 y_bin = label_binarize(y, classes=[0, 1, 2])
 
-# Modele de classification ordinal
+# Affichage Modele de classification ordinal
 fpr = {}
 tpr = {}
 roc_auc = {}
@@ -228,12 +224,32 @@ for i in range(3):  # 3 classes
     fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X_pca, i))
     roc_auc[i] = auc(fpr[i], tpr[i])
 for i in range(3):
-    axs[index].plot(fpr[i], tpr[i], label=f'Classe {i} (AUC = {roc_auc[i]:.2f})')
+    plt.plot(fpr[i], tpr[i], label=f"Classe {i} (AUC = {roc_auc[i]:.2f})")
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
+plt.title(f"Régression Logistique Ordinale avec PCA")
+plt.xlabel('Taux de Faux Positifs (FPR)')
+plt.ylabel('Taux de Vrais Positifs (TPR)')
+plt.title('Courbe ROC Régression Logistique Ordinal')
+plt.legend()
+plt.savefig("rendu_4/img/courbe_ROC_Logistique_PCA.png", format="png")
+plt.show()
+
+
+## Calcules et affichage des courbes ROC des différents modèles sans PCA
+fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(20, 10))
+axs = axs.flatten()
+index = 0
+log_reg.fit(X, y, alpha=0.1)
+for i in range(3):  # 3 classes
+    fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], log_reg.proba(X, i))
+    roc_auc[i] = auc(fpr[i], tpr[i])
+for i in range(3):
+    axs[index].plot(fpr[i], tpr[i], label=f"Classe {i} (AUC = {roc_auc[i]:.2f})")
 axs[index].plot([0, 1], [0, 1], color='gray', linestyle='--')
-axs[index].set_title(f"Classification Ordinale")
+axs[index].set_title("Régression Logistique Ordinale")
 axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
 axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
-plt.title('Courbe ROC Régression Logistique Ordinal')
+axs[index].legend()
 
 index += 1
 
@@ -243,16 +259,30 @@ models = {
     "XGBoost": XGBClassifier(eval_metric='mlogloss'),
     "SVM": SVC(probability=True, kernel='rbf')
 }
-
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
 # Entraînement, évaluation et affichage
 for name, model in models.items():
-    model.fit(X_pca, y)
-    y_pred = model.predict(X_pca)
-    y_proba = model.predict_proba(X_pca)
-    accuracy = accuracy_score(y, y_pred)
-    print(f"\n{name} - Accuracy: {accuracy:.4f}")
-    print(classification_report(y, y_pred))
+    accuracy_scores = []
+    all_y_true = []
+    all_y_pred = []
 
+    # Cross validation, accury moyen
+    for train_index, test_index in kf.split(X, y):
+        X_train, X_test = X[train_index], X[test_index]
+        y_train, y_test = y[train_index], y[test_index]
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        y_proba = model.predict_proba(X_test)
+        accuracy_scores.append(accuracy_score(y_test, y_pred))
+        all_y_true.extend(y_test)
+        all_y_pred.extend(y_pred)
+    accuracy = np.mean(accuracy_scores)
+    print(f"\n{name} - Cross Validation - Accuracy : {accuracy:.4f}")
+    print("Rapport de Classification :\n", classification_report(all_y_true, all_y_pred))
+
+    model.fit(X, y)
+    y_pred = model.predict(X)
+    y_proba = model.predict_proba(X)
     # Courbe ROC
     for i in range(3):
         fpr[i], tpr[i], _ = roc_curve(y_bin[:, i], y_proba[:, i])
@@ -263,6 +293,7 @@ for name, model in models.items():
     axs[index].set_title(f"{name}")
     axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
     axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
+    axs[index].legend()
     index += 1
 
 # Affichage courbes ROC
