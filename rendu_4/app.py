@@ -234,14 +234,13 @@ axs[index].set_title(f"Classification Ordinale")
 axs[index].set_xlabel('Taux de Faux Positifs (FPR)')
 axs[index].set_ylabel('Taux de Vrais Positifs (TPR)')
 plt.title('Courbe ROC Régression Logistique Ordinal')
-plt.legend(loc='lower right')
 
 index += 1
 
 # Selection des différents modèles
 models = {
     "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-    "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric='mlogloss'),
+    "XGBoost": XGBClassifier(eval_metric='mlogloss'),
     "SVM": SVC(probability=True, kernel='rbf')
 }
 

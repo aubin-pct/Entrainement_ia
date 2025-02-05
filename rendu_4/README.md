@@ -69,7 +69,7 @@ L'Analyse en Composantes Principales (PCA) a été utilisée pour réduire la di
 
 ![graphes régressions de la variable cible](img/regression_target_graphe.png)
 
-#### 4/ Courbe ROC de la classification ordinale
+#### 4/ Courbes ROC
 
 ![graphe ROC](https://file+.vscode-resource.vscode-cdn.net/home/ob1/Documents/Entrainement_ia/rendu_4/img/ROC_graphe.png)
 
