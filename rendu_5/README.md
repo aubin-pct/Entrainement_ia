@@ -74,15 +74,15 @@ Le perceptron est un modèle de réseau de neurones artificiels utilisé pour le
 
 ##### 2/ Régression des variables fortement corrélées
 
-![accuracy](img/Accuracy.png)
+![accuracy](img/accuracy.png)
 
 ##### 3/ Deux perceptron en serie
 
 ![perceptron_serie](img/perceptron_serie.png)
 
-##### 4/ Deux perceptron en parrallèle
+##### 4/ Deux perceptron en parallèle
 
-![perceptron_parrallele](img/perceptron_parrallele.png)
+![parallele](img/perceptron_parallele.png)
 
 ## ✨ Auteurs
 

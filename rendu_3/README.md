@@ -1,5 +1,4 @@
-# **3ème Rendu**
-
+# **3ème Rendu : Regression Polynomial**
 
 Dans ce troisième rendu, l'objectif est d'améliorer les résultats obtenus précédemment en intégrant une régression polynomiale.
 

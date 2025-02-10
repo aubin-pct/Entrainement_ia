@@ -1,16 +1,30 @@
-from matplotlib.lines import lineStyles
 import numpy as np
-import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import utile.Perceptron as per
+from sklearn.datasets import load_iris
 
 
-X = np.random.rand(100, 2)
-y = np.where(X[:, 0] + X[:, 1] >= 1, 1, 0)
+
+iris = load_iris()
+
+y = iris.target
+
+# Standardisation
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(iris.data)
+
+# PCA
+pca = PCA(n_components=0.95)
+X_pca = pca.fit_transform(X_scaled)
+X = X_pca[:, :2]
+
+epochs = 10
 
 # Perceptron seul
 p = per.Perceptron()
-accuracies = p.fit(X, y)
+accuracies = p.fit(X, y, epochs = epochs)
 
 w1, w2 = p.W 
 b = p.B
@@ -37,9 +51,9 @@ plt.show()
 plt.plot(range(len(accuracies)), accuracies, linestyle='-', linewidth=1, label="Accuracy")
 plt.xlabel("epochs")
 plt.ylabel("Accuracy")
-plt.title("Evolution de l'accuracy -> 1000 epochs")
+plt.title(f"Evolution de l'accuracy -> {epochs} epochs")
 plt.legend()
-plt.savefig("rendu_5/img/Accuracy.png", format="png")
+plt.savefig("rendu_5/img/accuracy.png", format="png")
 plt.show()
 
 # 2 Perceptron en series 
@@ -66,10 +80,13 @@ plt.savefig("rendu_5/img/perceptron_serie.png", format="png")
 plt.show()
 
 
-# 2 Perceptron en paraallele
-X_new = np.c_[X_new, X_new]
+# 2 Perceptron en parallele
+p1 = per.Perceptron()
+p2 = per.Perceptron()
 p3 = per.Perceptron()
-p3.fit(X_new, y)
+p1.fit(X, y, epochs = epochs)
+p2.fit(X, y, epochs = epochs)
+p3.fit(np.c_[p1.predict_proba(X), p2.predict_proba(X)], y, epochs = epochs)
 
 w1, w2 = p3.W 
 b = p3.B
@@ -87,7 +104,8 @@ plt.scatter(X[y == 1, 0], X[y == 1, 1], color='red', edgecolor='k', marker='^', 
 plt.plot(x1_vals, x2_vals, 'k--', linewidth=2, label="Frontière de décision")
 plt.xlabel("X1")
 plt.ylabel("X2")
-plt.title("Frontière de décision de Perceptron 2 en parrallele")
+plt.title("Frontière de décision de Perceptron 2 en parallele")
 plt.legend()
-plt.savefig("rendu_5/img/perceptron_parrallele.png", format="png")
+plt.savefig("rendu_5/img/perceptron_parallele.png", format="png")
 plt.show()
+

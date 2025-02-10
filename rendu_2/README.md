@@ -1,4 +1,4 @@
-# **2ème Rendu**
+# **2ème Rendu : Regression Linéaire**
 
 Dans ce deuxième rendu, il s'agit d'un programme permettant d'effectuer une régression linéaire simple et d'afficher la courbe de projection du modèle créé pour la comparer aux résultats de la bibliothèque scikit-learn.
 
