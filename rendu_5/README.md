@@ -51,6 +51,23 @@ Le perceptron est un modèle de réseau de neurones artificiels utilisé pour le
 - **Fonction d'activation** :
   - y = 1 si z >= 0, 0 sinon
 
+## Étude du Dataset Iris
+
+Il contient des informations sur **150 iris** répartis en trois classes :  **Iris-setosa** ,  **Iris-versicolor** , et  **Iris-virginica** , avec 50 échantillons par classe. Chaque échantillon est décrit par **quatre caractéristiques** :
+
+1. La longueur du sépale
+2. La largeur du sépale
+3. La longueur du pétale
+4. La largeur du pétale
+
+Ces caractéristiques sont des variables quantitatives continues et mesurées en centimètres.
+
+Pour cet exercice, nous avons réduit le problème à un cas binaire où la classe Iris-setosa (Label 0) est séparée des autres classes (Label 1). L'objectif est de classer les iris en deux catégories, et nous avons utilisé la réduction de dimensionnalité avec PCA pour simplifier les données tout en conservant 95 % de la variance d'origine.
+
+#### Conclusion
+
+L'utilisation de la réduction de dimensionnalité avec PCA a grandement facilité la tâche de classification. Le  Perceptron, même avec sa simplicité, a réussi à  séparer efficacement les classes . La visualisation des frontières de décision montre que les données sont bien séparées dans l'espace transformé par PCA, ce qui illustre l'efficacité de cette approche pour des problèmes de classification simples.
+
 ## 🚀 Lancement
 
 ```
@@ -83,9 +100,6 @@ Le perceptron est un modèle de réseau de neurones artificiels utilisé pour le
 ##### 4/ Deux perceptron en parallèle
 
 ![para](img/perceptron_parallele.png)
-
-#### Conclusion
-
 
 ## ✨ Auteurs
 
