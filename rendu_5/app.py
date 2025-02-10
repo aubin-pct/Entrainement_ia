@@ -4,13 +4,14 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import utile.Perceptron as per
 from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
 
 
 
 iris = load_iris()
 
 y = iris.target
-
+y = np.where(y == 0, 0, 1)
 # Standardisation
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(iris.data)
@@ -84,8 +85,9 @@ plt.show()
 p1 = per.Perceptron()
 p2 = per.Perceptron()
 p3 = per.Perceptron()
-p1.fit(X, y, epochs = epochs)
-p2.fit(X, y, epochs = epochs)
+X_1, X_2, y_1, y_2 = train_test_split(X, y, test_size=0.5, random_state=42)
+p1.fit(X_1, y_1, epochs = epochs)
+p2.fit(X_2, y_2, epochs = epochs)
 p3.fit(np.c_[p1.predict_proba(X), p2.predict_proba(X)], y, epochs = epochs)
 
 w1, w2 = p3.W 

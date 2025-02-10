@@ -6,7 +6,7 @@ Le projet consiste en l'implémentation et l'entraînement d'un perceptron pour 
 
 ### Objectifs du Projet :
 
-- **Génération des Données** : Création de 100 points aléatoires en 2 dimensions, chaque point étant classé en fonction de la somme de ses coordonnées (s'il est supérieur à 1, il appartient à la classe "Label 1", sinon à la classe "Label 0").
+- **Génération des Données** : Importation du dataset Iris, suivi d'une réduction de dimensionnalité via l'Analyse en Composantes Principales (PCA) pour ne conserver que les deux premières dimensions principales. Ce processus permet de visualiser et classifier les données dans un espace 2D tout en conservant un maximum d'information.
 - **Implémentation du Perceptron** : Création d'une classe `Perceptron` permettant d'initialiser les paramètres d'entraînement (taux d'apprentissage, nombre d'itérations, poids, biais), d'effectuer la fonction d'activation, d'entraîner le modèle et de faire des prédictions.
 - **Visualisation** : Affichage des points sur un graphique, avec un code couleur pour les classes "Label 0" et "Label 1", ainsi que la frontière de décision obtenue par le perceptron.
 - **Tests Comparatifs** : Comparaison des performances entre différents modèles :
@@ -72,7 +72,7 @@ Le perceptron est un modèle de réseau de neurones artificiels utilisé pour le
 
 ![perceptron](img/perceptron.png)
 
-##### 2/ Régression des variables fortement corrélées
+##### 2/ Evolution de l'accuracy
 
 ![accuracy](img/accuracy.png)
 
@@ -82,7 +82,10 @@ Le perceptron est un modèle de réseau de neurones artificiels utilisé pour le
 
 ##### 4/ Deux perceptron en parallèle
 
-![parallele](img/perceptron_parallele.png)
+![para](img/perceptron_parallele.png)
+
+#### Conclusion
+
 
 ## ✨ Auteurs
 
