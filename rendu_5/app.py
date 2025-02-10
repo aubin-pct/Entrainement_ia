@@ -1,26 +1,29 @@
+from matplotlib.lines import lineStyles
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 import utile.Perceptron as per
 
-X = np.array([[10, 5], [7, 5], [5, 6], [1, 2]])
-y = np.array([0, 0, 0, 1])
 
+X = np.random.rand(100, 2)
+y = np.where(X[:, 0] + X[:, 1] >= 1, 1, 0)
+
+# Perceptron seul
 p = per.Perceptron()
-p.fit(X, y)
+accuracies = p.fit(X, y)
 
-w0, w1, w2 = p.W
+w1, w2 = p.W 
+b = p.B
 
 # Définition des limites pour x1
-x1_vals = np.array([X[:, 0].min() - 1, X[:, 0].max() + 1])
+x1_vals = np.array([X[:, 0].min() - 0.5, X[:, 0].max() + 0.5])
 
 # Calcul de x2 en fonction de x1
-x2_vals = - (w0 + w1 * x1_vals) / w2
+x2_vals = -(b + w1 * x1_vals) / w2
 
 
-plt.scatter(X[y == 0, 0], X[y == 0, 1], color='blue', edgecolor='k', marker='o', s=100, label='Classe 0')
-plt.scatter(X[y == 1, 0], X[y == 1, 1], color='red', edgecolor='k', marker='^', s=100, label='Classe 1')
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color='blue', edgecolor='k', marker='o', s=50, label='Label 0')
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color='red', edgecolor='k', marker='^', s=50, label='Label 1')
 
 plt.plot(x1_vals, x2_vals, 'k--', linewidth=2, label="Frontière de décision")
 plt.xlabel("X1")
@@ -28,4 +31,63 @@ plt.ylabel("X2")
 plt.title("Frontière de décision du Perceptron")
 plt.legend()
 plt.savefig("rendu_5/img/perceptron.png", format="png")
+plt.show()
+
+# Affichage Accuracy evolution
+plt.plot(range(len(accuracies)), accuracies, linestyle='-', linewidth=1, label="Accuracy")
+plt.xlabel("epochs")
+plt.ylabel("Accuracy")
+plt.title("Evolution de l'accuracy -> 1000 epochs")
+plt.legend()
+plt.savefig("rendu_5/img/Accuracy.png", format="png")
+plt.show()
+
+# 2 Perceptron en series 
+X_new = p.predict_proba(X).reshape(-1, 1)
+p2 = per.Perceptron()
+p2.fit(X_new, y)
+
+plt.scatter(X_new[y == 0], y[y == 0], color='blue', edgecolor='k', marker='o', s=50, label='Label 0')
+plt.scatter(X_new[y == 1], y[y == 1], color='red', edgecolor='k', marker='^', s=50, label='Label 1')
+
+w0 = p2.W
+b = p2.B
+
+# Définition des limites pour x1
+x_val = -b / w0
+
+plt.axvline(x=x_val, color='red', linestyle='--', label="Frontière de décision")
+
+plt.xlabel("X1")
+plt.ylabel("X2")
+plt.title("Frontière de décision du Perceptron (serie de 2)")
+plt.legend()
+plt.savefig("rendu_5/img/perceptron_serie.png", format="png")
+plt.show()
+
+
+# 2 Perceptron en paraallele
+X_new = np.c_[X_new, X_new]
+p3 = per.Perceptron()
+p3.fit(X_new, y)
+
+w1, w2 = p3.W 
+b = p3.B
+
+# Définition des limites pour x1
+x1_vals = np.array([X[:, 0].min() - 0.5, X[:, 0].max() + 0.5])
+
+# Calcul de x2 en fonction de x1
+x2_vals = -(b + w1 * x1_vals) / w2
+
+
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color='blue', edgecolor='k', marker='o', s=50, label='Label 0')
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color='red', edgecolor='k', marker='^', s=50, label='Label 1')
+
+plt.plot(x1_vals, x2_vals, 'k--', linewidth=2, label="Frontière de décision")
+plt.xlabel("X1")
+plt.ylabel("X2")
+plt.title("Frontière de décision de Perceptron 2 en parrallele")
+plt.legend()
+plt.savefig("rendu_5/img/perceptron_parrallele.png", format="png")
 plt.show()
