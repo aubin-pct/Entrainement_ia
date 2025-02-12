@@ -297,6 +297,5 @@ for name, model in models.items():
     index += 1
 
 # Affichage courbes ROC
-plt.title("Courbes ROC des modèles")
 plt.savefig('rendu_4/img/ROC_graphe.png', format='png')
 plt.show()

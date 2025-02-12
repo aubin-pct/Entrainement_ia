@@ -69,6 +69,7 @@ for degree in range(1,len(x_train)):
 plt.xlabel("X")
 plt.ylabel("Y")
 plt.legend()
+plt.savefig("rendu_3/img/regression_poly_degres.png", format="png")
 plt.show()
 
 # Graphique mean squared error
