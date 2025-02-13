@@ -18,16 +18,19 @@ class Neural_network:
         self.activation_function = self.activation_functions[activation]
 
     def __initialisation(self, nb_parametres):
+        init = np.sqrt(1/nb_parametres)
+        if self.activation_function == self.relu:
+            init = np.sqrt(2/nb_parametres)
         if (self.nb_neural_layer > 0 or self.nb_hidden_layer > 0):
-            self.W.append(np.random.randn(nb_parametres, self.nb_neural_layer))  # première couche chachée
-            self.b.append(np.ones((1, self.nb_neural_layer))) # biais
+            self.W.append(np.random.randn(nb_parametres, self.nb_neural_layer) * init)  # première couche chachée
+            self.b.append(np.zeros((1, self.nb_neural_layer)) * init) # biais
             for _ in range(self.nb_hidden_layer - 1):
-                self.W.append(np.random.randn(self.nb_neural_layer, self.nb_neural_layer)) # autres couches cachées
-                self.b.append(np.ones((1, self.nb_neural_layer))) # biais
-            self.W.append(np.random.randn(self.nb_neural_layer, 1)) # neurone de sortie
+                self.W.append(np.random.randn(self.nb_neural_layer, self.nb_neural_layer) * init) # autres couches cachées
+                self.b.append(np.zeros((1, self.nb_neural_layer)) * init) # biais
+            self.W.append(np.random.randn(self.nb_neural_layer, 1) * init) # neurone de sortie
         else:
-            self.W.append(np.random.randn(nb_parametres, 1)) # neurone de sortie
-        self.b.append(np.ones((1, 1))) # biais
+            self.W.append(np.random.randn(nb_parametres, 1) * init) # neurone de sortie
+        self.b.append(np.zeros((1, 1)) * init) # biais
 
     def fit(self, X, y, alpha=0.01, epochs=1000, x_test=None, y_test=None):
         self.__initialisation(X.shape[1])
@@ -68,7 +71,7 @@ class Neural_network:
         A = []
         A.append(X)
         for i in range(len(self.W) - 1):
-            A.append(self.sigmoid(A[-1] @ self.W[i] + self.b[i]))
+            A.append(self.activation_function(A[-1] @ self.W[i] + self.b[i]))
         A.append(self.activation_function(A[-1] @ self.W[-1] + self.b[-1]))
         return A
     
@@ -88,7 +91,16 @@ class Neural_network:
         self.b[-1] -= alpha * 1/len(y) * np.sum(dZ, axis=0)
         for i in range(len(self.W) - 1, 0, -1):
             dA = dZ @ self.W[i].T
-            dZ = dA * (A[i] * (1 - A[i])) # (1 - A[i]) -> car sigmoid
+
+            if self.activation_function == self.sigmoid:
+                dZ = dA * (A[i] * (1 - A[i]))           # Dérivée sigmoid
+            elif self.activation_function == self.tanh:
+                dZ = dA * (1 - A[i]**2)                 # Dérivée tanh
+            elif self.activation_function == self.relu:
+                dZ = dA * (A[i] > 0)                    # Dérivée ReLU
+            elif self.activation_function == self.step:
+                dZ = np.zeros_like(dA) 
+
             self.W[i-1] -= alpha * 1/len(y) * A[i-1].T @ dZ
             self.b[i-1] -= alpha * 1/len(y) * np.sum(dZ, axis=0)
 
