@@ -11,7 +11,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import SGD
 
 
-
 ####################################  Dataset aléatoire  ####################################
 
 
@@ -112,9 +111,9 @@ fig, axs = plt.subplots(ncols=3, nrows=3, figsize=(20, 10))
 axs = axs.flatten()
 index = 0
 
-parametres = [("sigmoid", 200, 0.1, 16),
-               ("tanh", 100, 0.05, 16),
-               ("relu", 100, 0.05, 16)]
+parametres = [("sigmoid", 200, 0.1, 8),
+               ("tanh", 100, 0.1, 16),
+               ("relu", 100, 0.1, 16)]
 
 for a, epochs, lr, batch_size in parametres:
     accuracies = []
@@ -304,7 +303,7 @@ index = 0
 
 parametres = [("sigmoid", 150, 0.01, 16),
                ("tanh", 150, 0.005, 16),
-               ("relu", 100, 0.005, 32)] # (activation, epochs, lr, batch_size)
+               ("relu", 100, 0.005, 16)] # (activation, epochs, lr, batch_size)
 
 for a, epochs, lr, batch_size in parametres:
     accuracies = []
@@ -384,9 +383,9 @@ fig, axs = plt.subplots(ncols=3, nrows=3, figsize=(20, 10))
 axs = axs.flatten()
 index = 0
 
-parametres = [("sigmoid", 200, 0.03, 8),
-               ("tanh", 150, 0.03, 8),
-               ("relu", 150, 0.03, 8)]
+parametres = [("sigmoid", 200, 0.1, 8),
+               ("tanh", 100, 0.1, 16),
+               ("relu", 100, 0.1, 16)]
 
 for a, epochs, lr, batch_size in parametres:
     accuracies = []

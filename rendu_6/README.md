@@ -2,24 +2,39 @@
 
 ## 📝 Description du Rendu
 
-Le projet consiste en l'implémentation et l'entraînement d'un perceptron pour la classification binaire. Il est structuré de manière à permettre une visualisation des données ainsi que de la frontière de décision qui sépare les deux classes. Le perceptron utilise une fonction d'activation de type seuil (step function) pour effectuer les prédictions.
+Ce projet a pour objectif de comparer différentes architectures de perceptrons et fonctions d'activation sur deux jeux de données distincts :
 
-### Objectifs du Projet :
+1. Un dataset généré aléatoirement, puis standardisé.
+2. Le dataset Iris, chargé depuis les bases de données standards et transformé par une Analyse en Composantes Principales (PCA) pour une projection en 2D.
 
-- **Génération des Données** : Importation du dataset Iris, suivi d'une réduction de dimensionnalité via l'Analyse en Composantes Principales (PCA) pour ne conserver que les deux premières dimensions principales. Ce processus permet de visualiser et classifier les données dans un espace 2D tout en conservant un maximum d'information.
-- **Implémentation du Perceptron** : Création d'une classe `Perceptron` permettant d'initialiser les paramètres d'entraînement (taux d'apprentissage, nombre d'itérations, poids, biais), d'effectuer la fonction d'activation, d'entraîner le modèle et de faire des prédictions.
-- **Visualisation** : Affichage des points sur un graphique, avec un code couleur pour les classes "Label 0" et "Label 1", ainsi que la frontière de décision obtenue par le perceptron.
-- **Tests Comparatifs** : Comparaison des performances entre différents modèles :
+L'analyse vise à observer l'impact de ces choix sur la frontière de décision et l'évolution des métriques d'évaluation.
 
-  - Un perceptron simple.
-  - Deux perceptrons en série.
-  - Deux perceptrons en parallèle.
+## 🎯 Objectifs du Projet
+
+L'expérimentation porte sur les configurations suivantes :
+
+* Un perceptron unique.
+* Deux perceptrons en série.
+* Deux perceptrons en parallèle.
+
+Chacune de ces architectures est testée avec les trois fonctions d'activation suivantes :
+
+* Sigmoïde `sigmoid`
+* Tangente hyperbolique `tanh`
+* Rectified Linear Unit `ReLU`
+
+## 📊 Métriques d'évaluation
+
+Pour chaque combinaison, les résultats sont analysés à travers :
+
+* **La frontière de décision**, affichée graphiquement pour une meilleure visualisation des zones de classification.
+* **L'évolution de l'accuracy**, permettant d'observer la performance du modèle en fonction des itérations d'entraînement.
+* **L'évolution de la loss en cross-validation**, afin de suivre la convergence du modèle.
 
 ## 📂 Structure du Rendu
 
 Le projet est organisé comme suit :
 
-* `Perceptron.py` : Contient la classe `Perceptron`, avec ses méthodes pour l'entraînement et la prédiction des données.
 * `app.py` : Exécute l'entraînement et affiche les résultats avec les graphes de précision et la frontière de décision.
 
 ## Étude du Dataset Iris
@@ -56,17 +71,33 @@ L'utilisation de la réduction de dimensionnalité avec PCA a grandement facilit
 
 #### 📈 Graphiques
 
-##### 1/ Perceptron simple
+##### Dataset aléatoire
+
+###### 1/ Perceptron simple
 
 ![perceptron](img/perceptron_simple_activations.png)
 
-##### 3/ Deux perceptron en serie
+###### 2/ Deux perceptrons en serie
 
 ![perceptron_serie](img/perceptron_serie_activations.png)
 
-##### 4/ Deux perceptron en parallèle
+###### 3/ Deux perceptrons en parallèle
 
 ![perceptron_para](img/perceptron_para_activations.png)
+
+##### Dataset iris
+
+###### 1/ Perceptron simple
+
+![perceptron](img/perceptron_simple_activations_iris.png)
+
+###### 2/ Deux perceptrons en serie
+
+![perceptron_serie](img/perceptron_serie_activations_iris.png)
+
+###### 3/ Deux perceptrons en parallèle
+
+![perception_para](img/perceptron_para_activations_iris.png)
 
 ## ✨ Auteurs
 
