@@ -19,16 +19,16 @@ L'expérimentation porte sur les configurations suivantes :
 
 Chacune de ces architectures est testée avec les trois fonctions d'activation suivantes :
 
-* Sigmoïde `sigmoid`
-* Tangente hyperbolique `tanh`
-* Rectified Linear Unit `ReLU`
+* Sigmoïde
+* Tangente hyperbolique
+* Rectified Linear Unit
 
 ## 📊 Métriques d'évaluation
 
 Pour chaque combinaison, les résultats sont analysés à travers :
 
 * **La frontière de décision**, affichée graphiquement pour une meilleure visualisation des zones de classification.
-* **L'évolution de l'accuracy**, permettant d'observer la performance du modèle en fonction des itérations d'entraînement.
+* **L'évolution de l'accuracy en cross-validation**, permettant d'observer la performance du modèle en fonction des itérations d'entraînement.
 * **L'évolution de la loss en cross-validation**, afin de suivre la convergence du modèle.
 
 ## 📂 Structure du Rendu
