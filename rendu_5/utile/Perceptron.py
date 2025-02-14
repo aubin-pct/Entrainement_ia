@@ -20,29 +20,17 @@ class Perceptron:
         test_accuracies = []
         activation_f = self.activation_functions[activation]
         for i in range(epochs):
-            correct_predictions = 0
-            for xi, yi_true in zip(X, y):
-                yi_pred = activation_f(xi @ self.W + self.B)
-                self.W += alpha * (yi_true - yi_pred) * xi
-                self.B += alpha * (yi_true - yi_pred)
-                if activation == "sigmoid":
-                    if (yi_pred >= 0.5).astype(int) == yi_true:
-                        correct_predictions += 1
-                elif activation == "tanh":
-                    if (yi_pred >= 0).astype(int) == yi_true:
-                        correct_predictions += 1
-                elif activation == "relu":
-                    if (yi_pred > 0).astype(int) == yi_true:
-                        correct_predictions += 1
-                else:
-                    if yi_true == yi_pred:
-                        correct_predictions += 1
-            accuracy = correct_predictions / len(X)
-            accuracies.append(accuracy)
+            yi_pred = activation_f(X @ self.W + self.B)
+            self.W -= alpha * (yi_pred - y) @ X
+            self.B -= alpha * np.sum(yi_pred - y)
+
+            y_train_pred = self.predict(X, activation=activation)
+            accuracies.append(np.mean(y_train_pred == y))
             if (x_test is not None and y_test is not None):
                 y_test_pred = self.predict(x_test, activation=activation)
                 test_accuracies.append(np.mean(y_test_pred == y_test))
-            if (accuracy >= 0.999):
+                
+            if (np.mean(y_train_pred == y) >= 0.999):
                 break
         if x_test is not None and y_test is not None:
             return accuracies, test_accuracies
