@@ -7,19 +7,19 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
 ## 🏆 Objectifs du projet
 
 - Prétraiter les données dermatologiques et entraîner un modèle de classification.
-- Atteindre une précision globale > **90%**.
-- Afficher et sauvegarder les performances via une **matrice de confusion**.
+- Atteindre une précision globale > 90%.
+- Afficher et sauvegarder les performances via une matrice de confusion.
 
 ## 📊 Résultats
 
 ### 🎯 **Précision globale obtenue**
 
-* Les performances sont évaluées via la **moyenne des 5 folds**.
+* Les performances sont évaluées via la moyenne des 5 folds.
 
 ### 📈 **Visualisation des performances**
 
-* **Graphique Accuracy vs Loss** : Permet d’évaluer la convergence du modèle.
-* **Matrice de confusion** : Analyse des erreurs de classification.
+* Graphique Accuracy vs Loss : Permet d’évaluer la convergence du modèle.
+* Matrice de confusion : Analyse des erreurs de classification.
 
 ## 📂 Structure du Rendu
 
@@ -31,6 +31,10 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
  │   ├── matrice_confusion.png  # Matrice de confusion finale
  ├── app.py  # Script d'entraînement du modèle
  ├── README.md  # Documentation du projet
+
+## Dataset Dermatologie
+
+Ce dataset contient des caractéristiques cliniques et histopathologiques liées à des maladies dermatologiques, avec des colonnes décrivant des symptômes (ex. érythème, desquamation) et des observations microscopiques (ex. acanthose, microabcès). La colonne 'classe' représente la maladie à prédire (6 classes possibles). L'objectif est de classifier les maladies en fonction des variables présentes.
 
 ## 🚀 Lancement
 
@@ -56,3 +60,7 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
 ##### 2/ Matrice de confusion
 
 ![matrice_confusion](img/matrice_confusion.png)
+
+3/ Courbe ROC
+
+![courbe_roc](img/courbe_roc.png)

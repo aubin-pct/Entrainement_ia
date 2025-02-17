@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, roc_curve, auc
 from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
+from sklearn.preprocessing import label_binarize
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
@@ -85,4 +86,49 @@ plt.xlabel('y_pred')
 plt.ylabel('y_true')
 plt.title('Matrice de Confusion')
 plt.savefig("rendu_7/img/matrice_confusion.png", format="png")
+plt.show()
+
+
+model = tf.keras.models.Sequential([
+        Dense(128, activation="tanh", input_shape=(X.shape[1],)),
+        Dense(128, activation="tanh"),
+        Dense(128, activation="tanh"),
+        Dense(6, activation="softmax")
+])
+
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
+model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(X, y, epochs=100, batch_size=8)
+
+# Courbe ROC
+y_true_bin = label_binarize(y_true, classes=np.unique(y_true))
+y_pred_proba = model.predict(X)
+
+# Calcul de la courbe ROC pour chaque classe
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+
+for i in range(y_true_bin.shape[1]):
+    fpr[i], tpr[i], _ = roc_curve(y_true_bin[:, i], y_pred_proba[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Affichage de la courbe ROC
+fig, axs = plt.subplots(ncols=3, nrows=2, figsize=(20, 10))
+axs = axs.flatten()
+colors = ['blue', 'red', 'green', 'orange', 'purple', 'brown'] 
+
+for i in range(y_true_bin.shape[1]):
+    axs[i].plot(fpr[i], tpr[i], color=colors[i], lw=2, label=f'Classe {i} (AUC = {roc_auc[i]:.4f})')
+
+    axs[i].plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+
+    axs[i].set_xlim([0.0, 1.0])
+    axs[i].set_ylim([0.0, 1.05])
+    axs[i].set_xlabel('Taux de faux positifs')
+    axs[i].set_ylabel('Taux de vrais positifs')
+    axs[i].set_title(f'Courbes ROC - classe {i}')
+    axs[i].legend(loc='lower right')
+plt.savefig("rendu_7/img/courbe_roc.png", format="png")
 plt.show()
