@@ -21,7 +21,7 @@ parametres = [("sigmoid", 150, 0.01, 8),
                ("tanh", 100, 0.01, 64),
                ("relu", 100, 0.01, 64)]
 
-vizualize.compare_activations(X, y, parametres, 0, 0)
+vizualize.compare_activations(X, y, parametres)
 
 ##################################  perceptron serie  ##################################
 
@@ -29,7 +29,7 @@ parametres = [("sigmoid", 200, 0.1, 8),
                ("tanh", 100, 0.1, 16),
                ("relu", 100, 0.1, 16)]
 
-vizualize.compare_activations(X, y, parametres, 1, 1)
+vizualize.compare_activations(X, y, parametres, [1])
 
 ##################################  perceptron parallele  ##################################
 
@@ -37,7 +37,7 @@ parametres = [("sigmoid", 200, 0.05, 8),
                ("tanh", 200, 0.01, 8),
                ("relu", 200, 0.01, 8)]
 
-vizualize.compare_activations(X, y, parametres, 1, 2)
+vizualize.compare_activations(X, y, parametres, [2])
 
 
 ####################################  Dataset iris  ####################################
@@ -62,7 +62,7 @@ parametres = [("sigmoid", 150, 0.01, 16),
                ("tanh", 150, 0.005, 16),
                ("relu", 100, 0.005, 16)] # (activation, epochs, lr, batch_size)
 
-vizualize.compare_activations(X, y, parametres, 0, 0)
+vizualize.compare_activations(X, y, parametres)
 
 ##################################  perceptron serie  ##################################
 
@@ -70,7 +70,7 @@ parametres = [("sigmoid", 200, 0.1, 8),
                ("tanh", 100, 0.1, 16),
                ("relu", 100, 0.1, 16)]
 
-vizualize.compare_activations(X, y, parametres, 1, 1)
+vizualize.compare_activations(X, y, parametres, [1])
 
 ##################################  perceptron parallele  ##################################
 
@@ -78,4 +78,4 @@ parametres = [("sigmoid", 150, 0.1, 8),
                ("tanh", 150, 0.01, 8),
                ("relu", 150, 0.05, 8)]
 
-vizualize.compare_activations(X, y, parametres, 1, 2)
+vizualize.compare_activations(X, y, parametres, [2])

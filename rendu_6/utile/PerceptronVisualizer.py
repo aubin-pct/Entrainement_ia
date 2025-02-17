@@ -12,7 +12,7 @@ class PerceptronVizualizer:
         self.kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
     
-    def compare_activations(self, X, y, parametres, nb_hidden_layer, nb_neural_layer):
+    def compare_activations(self, X, y, parametres, hidden_layer = []):
         fig, axs = plt.subplots(ncols=len(parametres), nrows=3, figsize=(20, 10))
         axs = axs.flatten()
         index = 0
@@ -28,12 +28,12 @@ class PerceptronVizualizer:
                 y_train, y_test = y[train_index], y[test_index]
                 
                 network = []
-                if (nb_hidden_layer == 0 or nb_neural_layer == 0):
+                if (len(hidden_layer) == 0):
                     network.append(Dense(1, activation=a, input_shape=(X.shape[1],)))
                 else:
-                    network.append(Dense(nb_neural_layer, activation=a, input_shape=(X.shape[1],)))
-                    for i in range(nb_hidden_layer-1):
-                        network.append(Dense(nb_neural_layer, activation=a))
+                    network.append(Dense(hidden_layer[0], activation=a, input_shape=(X.shape[1],)))
+                    for l in range(1, len(hidden_layer)):
+                        network.append(Dense(hidden_layer[l], activation=a))
                     network.append(Dense(1, activation="sigmoid"))
 
                 model = Sequential(network)
