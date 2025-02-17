@@ -34,7 +34,7 @@ Ce projet implémente un perceptron pour la classification binaire, avec visuali
 
 ### -Projet en cours-
 
-## Installation
+## 📝 Installation
 
   1 - Clonez le dépot :
 	git clone https://github.com/aubin-pct/Entrainement_ia.git
@@ -44,7 +44,7 @@ Ce projet implémente un perceptron pour la classification binaire, avec visuali
 	source venv/bin/activate    # Sous Windows : venv\Scripts\activate
 	pip install -r requirements.txt
 
-## Lancement
+## 🚀 Lancement
 
     un fichier app.py est présent dans chaque rendu.
 
