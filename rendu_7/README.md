@@ -6,7 +6,7 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
 
 ## 🏆 Objectifs du projet
 
-- Prétraiter les données dermatologiques et entraîner un modèle de classification.
+- Prétraiter les données dermatologiques, pondérer les classes et entraîner un modèle de classification.
 - Atteindre une précision globale > 90%.
 - Afficher et sauvegarder les performances via une matrice de confusion.
 
@@ -20,6 +20,7 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
 
 * Graphique Accuracy vs Loss : Permet d’évaluer la convergence du modèle.
 * Matrice de confusion : Analyse des erreurs de classification.
+* Courbes ROC : Compare le taux de vrais positifs au taux de faux positifs.
 
 ## 📂 Structure du Rendu
 

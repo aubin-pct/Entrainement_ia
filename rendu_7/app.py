@@ -20,9 +20,9 @@ class_counts = Counter(data["classe"])
 nb_individus = data.shape[0]
 nb_classes = len(class_counts)
 
-class_weights = {classe: nb_individus / (nb_classes * count) for classe, count in class_counts.items()}
-class_weights[1] = 10
-class_weights[3] = 10
+class_weights = {classe: (nb_individus / (nb_classes * count)) for classe, count in class_counts.items()}
+for i in range(len(class_weights)):
+    class_weights[i] = class_weights[i] * (i+1)
 
 X = data.iloc[:, :-1].to_numpy()
 y_true = data.iloc[:, -1].to_numpy()
@@ -44,7 +44,7 @@ for train_index, test_index in kf.split(X, y):
     model = tf.keras.models.Sequential([
             Dense(128, activation="tanh", input_shape=(X.shape[1],)),
             Dense(128, activation="tanh"),
-            Dropout(0.2),
+            Dropout(0.5),
             Dense(6, activation="softmax")
     ])
 
@@ -103,7 +103,7 @@ plt.show()
 model = tf.keras.models.Sequential([
         Dense(128, activation="tanh", input_shape=(X.shape[1],)),
         Dense(128, activation="tanh"),
-        Dropout(0.2),
+        Dropout(0.5),
         Dense(6, activation="softmax")
 ])
 
