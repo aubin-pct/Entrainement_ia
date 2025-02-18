@@ -8,10 +8,19 @@ from sklearn.preprocessing import label_binarize
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import KFold
+from collections import Counter
+
 
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 
 data = pd.read_csv("rendu_7/csv_files/dermatologie.csv")
+
+
+class_counts = Counter(data["classe"])
+nb_individus = data.shape[0]
+nb_classes = len(class_counts)
+
+class_weights = {classe: nb_individus / (nb_classes * count) for classe, count in class_counts.items()}
 
 X = data.iloc[:, :-1].to_numpy()
 y_true = data.iloc[:, -1].to_numpy()
@@ -33,14 +42,14 @@ for train_index, test_index in kf.split(X, y):
     model = tf.keras.models.Sequential([
             Dense(128, activation="tanh", input_shape=(X.shape[1],)),
             Dense(128, activation="tanh"),
-            Dense(128, activation="tanh"),
+            Dropout(0.2),
             Dense(6, activation="softmax")
     ])
 
     optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
-    historique = model.fit(x_train, y_train, epochs=100, validation_data=(x_test, y_test), batch_size=8)
+    historique = model.fit(x_train, y_train, epochs=100, validation_data=(x_test, y_test), batch_size=16, class_weight=class_weights)
 
     accuracies.append(historique.history["accuracy"])
     accuracies_test.append(historique.history["val_accuracy"])
@@ -92,14 +101,14 @@ plt.show()
 model = tf.keras.models.Sequential([
         Dense(128, activation="tanh", input_shape=(X.shape[1],)),
         Dense(128, activation="tanh"),
-        Dense(128, activation="tanh"),
+        Dropout(0.2),
         Dense(6, activation="softmax")
 ])
 
 optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
 model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
-model.fit(X, y, epochs=100, batch_size=8)
+model.fit(X, y, epochs=100, batch_size=16, class_weight=class_weights)
 
 # Courbe ROC
 y_true_bin = label_binarize(y_true, classes=np.unique(y_true))
