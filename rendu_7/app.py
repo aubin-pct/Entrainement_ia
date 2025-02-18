@@ -21,6 +21,8 @@ nb_individus = data.shape[0]
 nb_classes = len(class_counts)
 
 class_weights = {classe: nb_individus / (nb_classes * count) for classe, count in class_counts.items()}
+class_weights[1] = 10
+class_weights[3] = 10
 
 X = data.iloc[:, :-1].to_numpy()
 y_true = data.iloc[:, -1].to_numpy()
