@@ -36,18 +36,9 @@ Le dataset MNIST est un ensemble de données bien connu pour la classification d
 * 10 000 images pour le test
   Chaque image est en niveaux de gris et de taille 28x28 pixels.
 
-## 🚀 Lancement
+## 🚀 Lancemement
 
-```
-	python app.py
-```
-
-    ou
-
-```
-	python3 app.py
-
-```
+Ce rendu a été réalisé sur un notebook, où tous les résultats sont déjà affichés dans le fichier `rendu_8.ipynb`.
 
 ## **📸 Sorties**
 
