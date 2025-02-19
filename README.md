@@ -30,9 +30,21 @@ Ce projet aborde la classification ordinale en appliquant des techniques d'analy
 
 #### 5ème Rendu : Perceptron
 
-Ce projet implémente un perceptron pour la classification binaire, avec visualisation de la frontière de décision. Les données sont générées aléatoirement, et l'entraînement se fait avec une fonction d'activation de type seuil. Des tests comparatifs entre un perceptron simple, en série et en parallèle ont montré l'impact de ces configurations sur les performances du modèle.
+Ce projet implémente un perceptron multicouche (MLP) et analyser son efficacité sur deux jeux de données différents. L'objectif est d'observer comment différentes architectures et fonctions d'activation influencent la convergence et la précision du modèle. L'étude inclut une analyse approfondie des performances à travers des métriques classiques (accuracy, perte) et une visualisation des frontières de décision.
 
-### -Projet en cours-
+#### 6ème Rendu : Perceptron - Tensorflow
+
+Ce projet est similaire au précédent tout en explorant l'utilisation de TensorFlow
+
+#### 7ème Rendu : Classification Dermatologique avec Réseau de Neurones
+
+Ce projet met en œuvre un réseau de neurones en utilisant TensorFlow/Keras pour classifier des maladies dermatologiques en fonction de leur gravité. Le modèle est entraîné avec un ensemble de données médicales prétraitées, en appliquant une pondération des classes pour compenser le déséquilibre des échantillons. Une validation croisée (K-Fold) est utilisée pour évaluer la robustesse du modèle, et les performances sont mesurées à l'aide d'une matrice de confusion et d'autres métriques clés.
+
+#### 8ème Rendu : Classification D'images - CNN
+
+Dans ce projet, un réseau de neurones convolutifs (CNN) est conçu pour la reconnaissance de chiffres manuscrits à partir du dataset MNIST. En plus de l'entraînement classique, une expérimentation est menée pour évaluer la robustesse du modèle face à des images altérées (changement de taille, repositionnement aléatoire). L'analyse inclut une étude de l’évolution des métriques d'apprentissage et l'utilisation d'outils comme la matrice de confusion pour affiner l’interprétation des résultats.
+
+## -Projet en cours-
 
 ## 📝 Installation
 
