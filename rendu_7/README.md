@@ -28,10 +28,10 @@ Ce projet met en place un modèle de réseau de neurones en utilisant TensorFlow
  ├── 📁 csv_files/
  │   ├── dermatologie.csv
  ├── 📁 img/
- │   ├── accuracy_loss.png  # Graphique de l'évolution de l'accuracy et de la perte
- │   ├── matrice_confusion.png  # Matrice de confusion finale
- ├── app.py  # Script d'entraînement du modèle
- ├── README.md  # Documentation du projet
+ │   ├── accuracy_loss.png
+ │   ├── matrice_confusion.png
+ ├── app.py 		 # Script d'entraînement du modèle
+ ├── README.md
 
 ## Dataset Dermatologie
 
