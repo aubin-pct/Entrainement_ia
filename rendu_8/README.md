@@ -25,8 +25,9 @@ Ce projet consiste en la mise en place d'un modèle de classification d'images b
 │   ├── accuracy_loss.png
 │   ├── matrice_conf_1.png   # Matrice de confusion - données MNIST
 │   ├── matrice_conf_2.png   # Matrice de confusion - données créées
-├── rendu_8.ipynb                 # Script principal contenant le code du modèle
 ├── README.md
+├── rendu_8_CNN_RNN.ipynb       # Script contenant le code du modèle CNN x RNN
+├── rendu_8_CNN.ipynb                 # Script contenant le code du modèle CNN simple
 
 ## Dataset MNIST
 
@@ -63,7 +64,7 @@ Ce rendu a été réalisé sur un notebook, où tous les résultats sont déjà 
 
 ## **📸 Sorties**
 
-Vous trouverez les sorties dans les notbook *rendu_8_CNN_RNN.ipynb* et *rendu_8_CNN_RNN.ipynb*
+Vous trouverez les sorties dans les notebook *rendu_8_CNN_RNN.ipynb* et *rendu_8_CNN_RNN.ipynb*
 
 ## Annexe
 
@@ -110,13 +111,7 @@ model = tf.keras.models.Sequential([
 ### 2/ Code CNN x RNN (GRU)
 
 ```
-Reshape((-1, 128)),
-
-      Bidirectional(GRU(512, activation='relu', return_sequences=True)),
-      Dropout(0.25),
-
-      Bidirectional(GRU(256, activation='relu')),
-      Dropout(0.5),model = tf.keras.models.Sequential([
+model = tf.keras.models.Sequential([
       Conv2D(32, (3, 3), activation='relu', padding="same", input_shape=(28, 28, 1)),
       BatchNormalization(),
       Conv2D(32, (3, 3), activation='relu', padding="same", input_shape=(28, 28, 1)),
