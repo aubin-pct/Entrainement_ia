@@ -1,2 +1,0 @@
-FROM deepseek-r1:1.5b
-SYSTEM "Tu es un assistant spécialisé en traitement d'images."
