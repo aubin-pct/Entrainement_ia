@@ -8,20 +8,8 @@
 </head>
 
 <body class="bg-gray-100 flex justify-center items-center min-h-screen">
-    <!-- Menu Toggle Button -->
-    <div class="fixed top-4 left-4" id="toggleButton">
-        <button onclick="toggleMenu()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-            Toggle Menu
-        </button>
-    </div>
-
-    <!-- Menu Bar -->
-    <div id="menu" class="fixed top-0 left-0 w-full bg-blue-500 text-white p-4 shadow-md transition-transform transform -translate-y-full flex justify-center items-center">
-        <ul class="flex gap-8">
-            <li><a href="/" class="block px-4 py-2 hover:bg-blue-600 rounded-lg">Chat</a></li>
-            <li><a href="/config" class="block px-4 py-2 hover:bg-blue-600 rounded-lg">Config</a></li>
-        </ul>
-    </div>
+    
+    {% include 'general/header.html' %}
     {% include 'pages/' + current_page + '.html' %}
 
 </body>

@@ -1,0 +1,37 @@
+<div class="w-full max-w-4xl bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-center">Configuration</h1>
+    
+    <form method="POST" action="/create_model" class="mt-4 space-y-4">
+        <!-- Sélection du modèle IA -->
+        <div>
+            <label for="model" class="block font-semibold">Choisir un modèle :</label>
+            <select id="model" name="model" class="w-full p-2 border border-gray-300 rounded-lg">
+                <option value="deepseek-r1:1.5b">deepseek-r1:1.5b</option>
+                <option value="deepseek-r1:7b">deepseek-r1:7b</option>
+            </select>
+        </div>
+        
+        <!-- Nom -->
+        <div>
+            <label for="nom" class="block font-semibold">Nom du modèle :</label>
+            <textarea id="nom" name="nom" rows="4"
+                class="w-full p-2 border border-gray-300 rounded-lg"
+                placeholder="Choisissez le nom du chatbot..."></textarea>
+        </div>
+
+        <!-- Système message -->
+        <div>
+            <label for="system_message" class="block font-semibold">Instructions système :</label>
+            <textarea id="system_message" name="system_message" rows="4"
+                class="w-full p-2 border border-gray-300 rounded-lg"
+                placeholder="Définissez les directives pour le chatbot..."></textarea>
+        </div>
+
+        <!-- Bouton de sauvegarde -->
+        <div class="flex justify-end">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Créer
+            </button>
+        </div>
+    </form>
+</div>

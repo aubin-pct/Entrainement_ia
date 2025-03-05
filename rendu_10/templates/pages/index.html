@@ -1,29 +1,39 @@
 <div class="w-full max-w-4xl bg-white p-6 rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold text-center">Chatbot</h1>
-    <div class="mt-4 border-t pt-4" id="discusion">
+    <div class="flex items-center justify-between">
+        <div></div>
+        <h1 class="text-2xl font-bold text-center flex-grow">Chatbot</h1>
+        <div>
+            <label for="model" class="block font-semibold">Modèle choisi :</label>
+            <select id="model" name="model" class="w-full p-2 border border-gray-300 rounded-lg">
+                {% for m in models %}
+                    <option value="m" onclick="select_model(event)" {% if m == current_model %}selected{% endif %}>{{ m }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+    <div class="mt-4 border-t pt-4" id="discussion">
         
     </div>
     <form method="POST" class="mt-4 flex gap-2" onsubmit="send_chat(event)">
-        <input type="text" name="user_input" id="user_input" placeholder="Ask me something..." required 
-            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input name="chat_history" value='{{ chat_history|tojson|safe }}' hidden>
+        <textarea name="user_input" id="user_input" placeholder="Ask me something..." required 
+            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Send</button>
     </form>
 </div>
 
 <script>
-
+    chat_history = []
     function send_chat(event) {
         event.preventDefault();
 
         const user_input = document.getElementById('user_input').value;
-        const chat_history = JSON.parse(document.querySelector('input[name="chat_history"]').value);
 
-        const chatContainer = document.getElementById('discusion');
+        const chatContainer = document.getElementById('discussion');
         chatContainer.appendChild(create_block_user(user_input));
 
         document.getElementById('user_input').value = '';
-
+        
         // Envoi de la requête au backend via fetch
         fetch("/chat", {
             method: "POST",
@@ -35,13 +45,8 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Ajouter la réponse du bot à l'historique des messages
-            chat_history.push({"user": data.user, "bot_response": data.bot_response, "bot_think": data.bot_think });
-
-            // Mettre à jour l'historique dans l'input caché pour qu'il soit envoyé lors de la soumission suivante
-            document.querySelector('input[name="chat_history"]').value = JSON.stringify(chat_history);
-
-            chatContainer.appendChild(create_block_bot(data.bot_think, data.bot_response));
+            chatContainer.appendChild(create_block_bot(data.reponse.bot_think, data.reponse.bot_response));
+            chat_history = data.chat_history;
         })
         .catch(error => console.error('Error:', error));
     }
@@ -69,6 +74,18 @@
         messageElement.classList.add("bg-blue-100", "text-blue-900", "p-3", "rounded-lg", "text-right", "my-2");
         messageElement.textContent = input;
         return messageElement;
+    }
+
+    function select_model(event) {
+        new_model = event.target.value;
+        fetch("/change_model", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                new_model: new_model
+            })
+        })
+        .catch(error => console.error('Error:', error));
     }
 
 </script>
