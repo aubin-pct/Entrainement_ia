@@ -25,7 +25,6 @@ Ce projet est une application web Flask intégrant un chatbot fonctionnant avec 
 * Python 3.8+
 * Flask
 * Ollama
-* joblib
 
 ### 🔹 Instructions
 
