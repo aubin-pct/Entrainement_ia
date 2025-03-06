@@ -6,7 +6,7 @@
             <label for="model" class="block font-semibold">Modèle choisi :</label>
             <select id="model" name="model" class="w-full p-2 border border-gray-300 rounded-lg">
                 {% for m in models %}
-                    <option value="m" onclick="select_model(event)" {% if m == current_model %}selected{% endif %}>{{ m }}</option>
+                    <option value="{{m}}" {% if m == current_model %}selected{% endif %}>{{ m }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -76,8 +76,10 @@
         return messageElement;
     }
 
-    function select_model(event) {
-        new_model = event.target.value;
+    const model = document.getElementById("model");
+
+    model.addEventListener("change", function() {
+        const new_model = model.value;
         fetch("/change_model", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -85,7 +87,10 @@
                 new_model: new_model
             })
         })
+        .then(response => response.json())
+        .then(data => console.log("Success:", data))
         .catch(error => console.error('Error:', error));
-    }
+    });
+    
 
 </script>

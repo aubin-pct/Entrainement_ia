@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session
+
+from joblib import PrintTime
 import ollama
 import json
 import re
@@ -67,7 +69,9 @@ def create_model():
 
 @app.route("/change_model", methods=["POST"])
 def change_model():
-    current_model = request.form.get("new_model")
+    global current_model
+    current_model = request.json.get("new_model")
+    return jsonify({"message": f"Modèle changé pour : {current_model}"})
 
 
 if __name__ == "__main__":
