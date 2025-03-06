@@ -49,12 +49,19 @@ Dans ce projet, un réseau de neurones convolutifs (CNN) est conçu pour la reco
 ## 📝 Installation
 
   1 - Clonez le dépot :
+
+```
 	git clone https://github.com/aubin-pct/Entrainement_ia.git
 	cd Entrainement_ia
+```
+
   2 - Configurez l'environnement :
+
+```
 	python -m venv venv
 	source venv/bin/activate    # Sous Windows : venv\Scripts\activate
 	pip install -r requirements.txt
+```
 
 ## 🚀 Lancement
 
