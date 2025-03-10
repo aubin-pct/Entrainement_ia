@@ -75,7 +75,3 @@ Ce projet est une application web Flask intégrant un chatbot fonctionnant avec 
 
 * Ajout d'un stockage persistant pour l'historique des conversations.
 * Intégration d'autres modèles IA pour plus de flexibilité.
-
-## 👥 Auteurs
-
-* Aubin PERCHET - Développement et conception du projet.
