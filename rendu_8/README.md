@@ -104,7 +104,7 @@ model = tf.keras.models.Sequential([
 
       Dense(10, activation="softmax")
   ])
-  optimizer = Adam(learning_rate=0.001, weight_decay=0.0001)
+  optimizer = AdamW(learning_rate=0.0001)
   model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=['accuracy'])
 ```
 
